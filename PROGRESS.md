@@ -7,31 +7,30 @@
 
 ## 🔖 LAST CHECKPOINT
 
-- **Date:** 2026-05-05
+- **Date:** 2026-05-06
 - **Section:** S01 — Project Skeleton & Docs Scaffold
-- **Checkpoint ID:** S01-CP1
-- **Last commit:** (pending — not yet committed)
-- **Next file to work on:** `DEVELOPER_SETUP.md`
-- **Resume instructions:** S01-CP1 is in progress. README.md, CLAUDE.md, and PROGRESS.md have been written. Continue with S01-CP2: write DEVELOPER_SETUP.md, RUNBOOK.md, CONTRIBUTING.md, LEARNING.md, LICENSE. Then S01-CP3: .gitignore, .env.example, docker-compose.yml, docker-compose.lite.yml.
+- **Checkpoint ID:** S01-COMPLETE
+- **Last commit:** `fd3fca9` — "ci: add GitHub Actions workflows, PR template, ADRs, and planning docs"
+- **Next file to work on:** `backend/src/main/resources/db/migration/V1__create_core_schema.sql`
+- **Resume instructions:** S01 is complete. Start S02 (Database & Persistence). Read `docs/plans/S02-database-and-persistence.md` for the detailed task list. First task: create Flyway migration V1 with core schema (tenants, users, projects, api_specs, test_runs, test_cases, test_results, load_metrics tables). Start the lite Docker stack first: `docker-compose -f docker-compose.lite.yml up -d`.
 
 ---
 
 ## ✅ COMPLETED CHECKPOINTS
 
-*(none yet)*
+- [x] **S01-CP1** — Core docs: README, CLAUDE.md, PROGRESS.md, LICENSE, CONTRIBUTING.md, LEARNING.md (commit: `fc7edb9`)
+- [x] **S01-CP2** — User-facing docs: DEVELOPER_SETUP.md, RUNBOOK.md (commit: `8ea245d`)
+- [x] **S01-CP3** — Config + Docker Compose full + lite + observability configs + scripts (commit: `3cd60f4`)
+- [x] **S01-CP4** — Backend Maven skeleton: pom.xml, application.yml, logback, ApiForgeApplication, 11 module stubs (commit: `5774959`)
+- [x] **S01-CP5** — Frontend skeleton + both sample API skeletons (commit: `514608b`)
+- [x] **S01-CP6+CP7** — GitHub Actions CI, ADRs (0001/0002/0003), docs/plans S01–S23, examples (commit: `fd3fca9`)
+- [x] **S01-CP8** — Pushed to GitHub: https://github.com/Shazaanashraff/APIForge (all 6 commits)
 
 ---
 
 ## 🚧 IN PROGRESS
 
-- [ ] **S01-CP1**: Core session docs (README, CLAUDE.md, PROGRESS.md)
-- [ ] **S01-CP2**: User-facing docs (DEVELOPER_SETUP.md, RUNBOOK.md, CONTRIBUTING.md, LEARNING.md, LICENSE)
-- [ ] **S01-CP3**: Config + Docker Compose (.gitignore, .env.example, docker-compose.yml, docker-compose.lite.yml)
-- [ ] **S01-CP4**: Backend Maven skeleton (pom.xml, application.yml, ApiForgeApplication.java, module stubs)
-- [ ] **S01-CP5**: Frontend skeleton (package.json, vite.config.ts, src/ stubs)
-- [ ] **S01-CP6**: Sample API skeletons (Java + Node)
-- [ ] **S01-CP7**: Observability configs + GitHub Actions + PowerShell scripts
-- [ ] **S01-CP8**: Per-section detailed plans (docs/plans/S01–S23) + initial ADRs
+*(none — S01 complete, S02 not yet started)*
 
 ---
 
@@ -69,7 +68,7 @@
 
 | ID | Section | Status | Commit |
 |---|---|---|---|
-| S01 | Project Skeleton | 🔄 In Progress | — |
+| S01 | Project Skeleton | ✅ Complete | `fd3fca9` |
 | S02 | Database & Persistence | ⬜ Pending | — |
 | S03 | Auth & Multi-Tenancy | ⬜ Pending | — |
 | S04 | Observability Foundation | ⬜ Pending | — |
