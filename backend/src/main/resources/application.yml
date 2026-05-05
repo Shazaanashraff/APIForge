@@ -1,0 +1,138 @@
+spring:
+  application:
+    name: apiforge
+
+  # ── Virtual Threads (Java 21) ────────────────────────────────────────────────
+  # Enables virtual threads for all @Async and Tomcat request handling.
+  # This is what allows the load tester to spin up thousands of concurrent VUs.
+  threads:
+    virtual:
+      enabled: true
+
+  # ── Database ─────────────────────────────────────────────────────────────────
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:apiforge_db}
+    username: ${POSTGRES_USER:apiforge}
+    password: ${POSTGRES_PASSWORD:apiforge_dev_secret}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Flyway manages schema; Hibernate only validates
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  # ── Flyway Migrations ────────────────────────────────────────────────────────
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  # ── Redis ────────────────────────────────────────────────────────────────────
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+  # ── Kafka ─────────────────────────────────────────────────────────────────────
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      properties:
+        schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8085}
+    consumer:
+      group-id: apiforge-backend
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8085}
+        specific.avro.reader: true
+
+  # ── Security / OAuth2 Resource Server ────────────────────────────────────────
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${APIFORGE_JWT_ISSUER_URI:http://localhost:8080/realms/apiforge}
+
+  # ── FreeMarker (code generator templates) ────────────────────────────────────
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+    enabled: true
+
+# ── Server ───────────────────────────────────────────────────────────────────
+server:
+  port: ${APIFORGE_SERVER_PORT:8081}
+  error:
+    # Use RFC 7807 ProblemDetail for all errors (Spring 6 built-in)
+    include-message: always
+    include-binding-errors: always
+
+# ── Actuator / Management ─────────────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics,env,flyway
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  # Send traces via OTLP to Tempo
+  tracing:
+    sampling:
+      probability: 1.0  # Sample 100% in dev; reduce in production
+  otlp:
+    tracing:
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317}
+
+# ── SpringDoc (generates OpenAPI spec for our own API) ───────────────────────
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+  show-actuator: false
+
+# ── Logging ──────────────────────────────────────────────────────────────────
+logging:
+  level:
+    io.github.shazaanashraff.apiforge: DEBUG
+    org.springframework.security: INFO
+    org.flywaydb: INFO
+  pattern:
+    # JSON logging is configured in logback-spring.xml for structured output
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# ── APIForge Application Config ──────────────────────────────────────────────
+apiforge:
+  executor:
+    default-timeout-ms: 30000
+    max-concurrency: 100
+    retry-max-attempts: 3
+    retry-backoff-ms: 1000
+  test-generator:
+    default-sla-threshold-ms: 500  # Global response-time SLA; override per-endpoint
+    rate-limit-burst-count: 20     # Number of requests for rate-limit tests
+    rate-limit-burst-window-ms: 1000
+    payload-size-oversized-multiplier: 10  # Test with 10x declared max
+  load-tester:
+    default-vus: 10
+    default-duration-seconds: 30
