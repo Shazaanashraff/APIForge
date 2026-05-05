@@ -1,0 +1,86 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# APIForge — Lite Stack (Dependencies Only)
+# For daily development: just Postgres, Redis, and MongoDB.
+# Run your backend and frontend directly on the host.
+#
+# Requires only ~2 GB Docker memory.
+#
+# Usage:
+#   docker-compose -f docker-compose.lite.yml up -d
+#   docker-compose -f docker-compose.lite.yml down
+# ──────────────────────────────────────────────────────────────────────────────
+
+version: '3.9'
+
+networks:
+  apiforge-net:
+    driver: bridge
+
+volumes:
+  postgres-data-lite:
+  redis-data-lite:
+  mongo-data-lite:
+
+services:
+
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    container_name: apiforge-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-apiforge}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-apiforge_dev_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-apiforge_db}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data-lite:/var/lib/postgresql/data
+      - ./scripts/db-init:/docker-entrypoint-initdb.d
+    networks:
+      - apiforge-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-apiforge} -d ${POSTGRES_DB:-apiforge_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 512m
+
+  redis:
+    image: redis:7-alpine
+    container_name: apiforge-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data-lite:/data
+    networks:
+      - apiforge-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    mem_limit: 256m
+
+  mongodb:
+    image: mongo:7
+    container_name: apiforge-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-mongo_root_secret}
+      MONGO_INITDB_DATABASE: ${MONGO_DB:-apiforge_samples}
+    ports:
+      - "${MONGO_PORT:-27017}:27017"
+    volumes:
+      - mongo-data-lite:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - apiforge-net
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: 512m

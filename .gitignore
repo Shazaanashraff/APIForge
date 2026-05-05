@@ -1,0 +1,87 @@
+# ──────────────────────────────────────────────
+# APIForge .gitignore
+# ──────────────────────────────────────────────
+
+# ── Secrets / Environment ──────────────────────
+.env
+*.env.local
+*.env.*.local
+
+# ── Planning artifacts (not for the repo) ──────
+master-prompt-zazzy-manatee.md
+
+# ── Java / Maven ───────────────────────────────
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+.mvn/repository/
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+hs_err_pid*
+replay_pid*
+
+# ── Spring Boot ────────────────────────────────
+HELP.md
+
+# ── Node.js / npm ──────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+dist/
+dist-ssr/
+*.tsbuildinfo
+
+# ── Frontend build output ──────────────────────
+frontend/dist/
+frontend/.vite/
+sample-target-api-node/dist/
+
+# ── IDE ────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.classpath
+.project
+.settings/
+.factorypath
+
+# ── OS ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ── Docker volumes (local bind mounts) ─────────
+.docker-data/
+postgres-data/
+redis-data/
+mongo-data/
+grafana-data/
+prometheus-data/
+loki-data/
+tempo-data/
+
+# ── Generated test output ──────────────────────
+generated-tests/
+test-reports/
+*.xml.bak
+
+# ── Logs ───────────────────────────────────────
+*.log
+logs/
+
+# ── Testcontainers ─────────────────────────────
+.testcontainers.properties
