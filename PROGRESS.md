@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-06
-- **Section:** S05 — Schema Parser Module
-- **Checkpoint ID:** S05-COMPLETE
-- **Last commit:** `7582676` — "feat(observability): S04 — Micrometer common tags, MetricsConstants, Grafana dashboard"
-- **Next file to work on:** `backend/src/main/java/.../modules/datagenerator/` (S06 — Data Generator)
-- **Resume instructions:** S05 is complete. Start S06 (Data Generator Module). Read `docs/plans/S06-data-generator.md`. The goal is to build a `DataGeneratorService` that takes an `Endpoint` and produces realistic request payloads using Datafaker + JQwik. Key files: `DataGeneratorService.java`, `FakerStrategy.java`, `ConstraintExtractor.java`.
+- **Section:** S06 — Data Generator Module
+- **Checkpoint ID:** S06-COMPLETE
+- **Last commit:** `8767488` — "feat(schemaparser): S05 — OpenAPI + Postman schema parser module"
+- **Next file to work on:** `backend/src/main/java/.../modules/testcasegen/` (S07 — Test Case Generator)
+- **Resume instructions:** S06 is complete. Start S07 (Test Case Generator Module). Read `docs/plans/S07-test-case-generator.md`. The goal is to generate typed test cases (happy-path, boundary, negative, auth, rate-limit, etc.) from `Endpoint` records using `DataGenerator`. Key files: `TestCaseGeneratorService.java`, `HappyPathGenerator.java`, `BoundaryTestGenerator.java`, `AuthTestGenerator.java`.
 
 ---
 
