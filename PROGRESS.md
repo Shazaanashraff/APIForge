@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-06
-- **Section:** S04 — Observability Foundation
-- **Checkpoint ID:** S04-COMPLETE
-- **Last commit:** `671f416` — "feat(auth): S03 — Spring Security JWT resource server + RLS tenant isolation"
-- **Next file to work on:** `backend/src/main/java/.../modules/schema/` (S05 — Schema Parser)
-- **Resume instructions:** S04 is complete. Start S05 (Schema Parser Module). Read `docs/plans/S05-schema-parser.md`. The goal is to parse OpenAPI 3.x specs (and optionally Postman collections) into an internal `ParsedEndpoint` model, ready for the test case generator in S07. Key files: `SchemaParserService.java`, `OpenApiParser.java`, `ParsedEndpoint.java`, `ParsedSchema.java`.
+- **Section:** S05 — Schema Parser Module
+- **Checkpoint ID:** S05-COMPLETE
+- **Last commit:** `7582676` — "feat(observability): S04 — Micrometer common tags, MetricsConstants, Grafana dashboard"
+- **Next file to work on:** `backend/src/main/java/.../modules/datagenerator/` (S06 — Data Generator)
+- **Resume instructions:** S05 is complete. Start S06 (Data Generator Module). Read `docs/plans/S06-data-generator.md`. The goal is to build a `DataGeneratorService` that takes an `Endpoint` and produces realistic request payloads using Datafaker + JQwik. Key files: `DataGeneratorService.java`, `FakerStrategy.java`, `ConstraintExtractor.java`.
 
 ---
 
@@ -38,6 +38,11 @@
 - [x] **S04-CP2** — OTLP/Tempo tracing: already configured in application.yml (100% sampling); verified
 - [x] **S04-CP3** — tenantId added to MDC in TenantContextFilter; logback-spring.xml already includes the key for Loki
 - [x] **S04-CP4** — apiforge-overview.json Grafana dashboard (8 panels: request rate, 5xx error rate, p50/p95/p99 latency, JVM heap, JVM threads, schema parse rate, executor rate) auto-provisioned via existing volume mount
+- [x] **S05-CP1** — Internal model records: Endpoint, Parameter, RequestBodySchema, ResponseSchema, AuthRequirement, PaginationHint, PayloadSizeHint, SlaHint, IdFormatHint
+- [x] **S05-CP2** — OpenApiParser (swagger-parser, $ref resolution, introspect), EndpointMapper, PaginationHintDetector, IdFormatDetector, SpecParseException
+- [x] **S05-CP3** — PostmanParser (Postman v2.1, nested folder flattening, variable stripping)
+- [x] **S05-CP4** — SpecIngestionService (public module API: ingestFile, ingestUrl, introspect) + ParsedSpec
+- [x] **S05-CP5** — 31 unit tests pass: OpenApiParserTest (6), PaginationHintDetectorTest (8), PostmanParserTest (5), IdFormatDetectorTest (12)
 
 ---
 
@@ -84,8 +89,8 @@
 | S01 | Project Skeleton | ✅ Complete | `fd3fca9` |
 | S02 | Database & Persistence | ✅ Complete | `b50c3da` |
 | S03 | Auth & Multi-Tenancy | ✅ Complete | `671f416` |
-| S04 | Observability Foundation | ✅ Complete | — |
-| S05 | Schema Parser Module | ⬜ Pending | — |
+| S04 | Observability Foundation | ✅ Complete | `7582676` |
+| S05 | Schema Parser Module | ✅ Complete | — |
 | S06 | Data Generator Module | ⬜ Pending | — |
 | S07 | Test Case Generator Module | ⬜ Pending | — |
 | S08 | Code Generator Module | ⬜ Pending | — |
