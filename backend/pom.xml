@@ -208,6 +208,12 @@
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
 
+    <!-- ══ Spring AOP — enables @Aspect for TenantAwareQueryInterceptor ════════ -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+    </dependency>
+
     <!-- ══ Lombok — reduces boilerplate (getters, builders, etc.) ════════════
          Note: Explicit @Getter/@Builder preferred over @Data to stay readable -->
     <dependency>

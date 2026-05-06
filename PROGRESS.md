@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-06
-- **Section:** S02 — Database & Persistence
-- **Checkpoint ID:** S02-COMPLETE
+- **Section:** S03 — Auth & Multi-Tenancy
+- **Checkpoint ID:** S03-CP5 (pending commit+push)
 - **Last commit:** `b50c3da` — "feat(db): add database layer — Flyway migrations, JPA entities, repositories, service"
-- **Next file to work on:** `observability/keycloak/realm-export.json`
-- **Resume instructions:** S02 is complete. Start S03 (Auth & Multi-Tenancy). Read `docs/plans/S03-auth-and-tenancy.md`. First task: create the Keycloak realm-export.json (S03-CP1), then wire up SecurityConfig with JWT validation (S03-CP2), then TenantContextHolder and TenantContextFilter (S03-CP3). Start the full Docker stack for Keycloak: `docker-compose up -d keycloak postgres redis`.
+- **Next file to work on:** commit + push S03, then start S04 (Observability: Micrometer, Prometheus, Grafana)
+- **Resume instructions:** S03 is fully coded (CP1–CP4 files all written). Commit the S03 changes (all new/modified files under `backend/src/`, `observability/keycloak/`, `docs/adr/0004-*.md`, `PROGRESS.md`, `pom.xml`). Then push to GitHub. After that, start S04: add Micrometer + Prometheus metrics, wire up Grafana dashboard, add a `/actuator/prometheus` scrape target to the Docker Compose observability stack.
 
 ---
 
@@ -30,12 +30,16 @@
 - [x] **S02-CP3** — Repositories + ProjectService public API
 - [x] **S02-CP4** — Integration tests: ProjectServiceIntegrationTest (5 test cases) + FlywayMigrationTest (Testcontainers)
 - [x] **S02-CP5** — Compile verified (30 files, BUILD SUCCESS), committed + pushed (`b50c3da`)
+- [x] **S03-CP1** — Keycloak realm-export.json (realm, clients, demo user, tenantId protocol mapper)
+- [x] **S03-CP2** — SecurityConfig (JWT resource server, role extraction, CORS) + JwtTenantExtractor
+- [x] **S03-CP3** — TenantContextHolder + TenantContextFilter + TenantAwareQueryInterceptor (AOP RLS bridge)
+- [x] **S03-CP4** — TenantIsolationIntegrationTest (2 test cases; FORCE RLS via isolation-test Flyway location)
 
 ---
 
 ## 🚧 IN PROGRESS
 
-*(none — S02 complete, S03 not yet started)*
+- **S03-CP5** — Commit + push S03 changes (pending)
 
 ---
 
@@ -75,7 +79,7 @@
 |---|---|---|---|
 | S01 | Project Skeleton | ✅ Complete | `fd3fca9` |
 | S02 | Database & Persistence | ✅ Complete | `b50c3da` |
-| S03 | Auth & Multi-Tenancy | ⬜ Pending | — |
+| S03 | Auth & Multi-Tenancy | 🔄 In Progress | — |
 | S04 | Observability Foundation | ⬜ Pending | — |
 | S05 | Schema Parser Module | ⬜ Pending | — |
 | S06 | Data Generator Module | ⬜ Pending | — |

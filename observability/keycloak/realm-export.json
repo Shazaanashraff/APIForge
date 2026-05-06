@@ -1,0 +1,134 @@
+{
+  "realm": "apiforge",
+  "displayName": "APIForge",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": false,
+  "accessTokenLifespan": 3600,
+  "refreshTokenMaxReuse": 0,
+
+  "roles": {
+    "realm": [
+      { "name": "ROLE_USER",  "description": "Standard user"    },
+      { "name": "ROLE_ADMIN", "description": "Administrator"    }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "apiforge-backend",
+      "name": "APIForge Backend",
+      "description": "Confidential client — Spring Boot resource server validates tokens issued for this audience",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "apiforge-backend-secret",
+      "bearerOnly": true,
+      "publicClient": false,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "defaultClientScopes": ["openid", "profile", "email", "roles"],
+      "optionalClientScopes": []
+    },
+    {
+      "clientId": "apiforge-frontend",
+      "name": "APIForge Frontend",
+      "description": "Public client — React SPA uses Authorization Code + PKCE",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": [
+        "http://localhost:5173/*",
+        "http://localhost:80/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173",
+        "http://localhost:80"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": ["openid", "profile", "email", "roles"],
+      "optionalClientScopes": []
+    }
+  ],
+
+  "clientScopes": [
+    {
+      "name": "roles",
+      "protocol": "openid-connect",
+      "attributes": { "include.in.token.scope": "true" },
+      "protocolMappers": [
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "config": {
+            "claim.name": "roles",
+            "jsonType.label": "String",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true"
+          }
+        },
+        {
+          "name": "tenant-id mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "config": {
+            "claim.name": "tenantId",
+            "user.attribute": "tenantId",
+            "jsonType.label": "String",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+
+  "users": [
+    {
+      "username": "demo@apiforge.dev",
+      "email": "demo@apiforge.dev",
+      "firstName": "Demo",
+      "lastName": "User",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password", "value": "demo123", "temporary": false }
+      ],
+      "realmRoles": ["ROLE_USER"],
+      "attributes": {
+        "tenantId": ["00000000-0000-0000-0000-000000000001"]
+      }
+    },
+    {
+      "username": "admin@apiforge.dev",
+      "email": "admin@apiforge.dev",
+      "firstName": "Admin",
+      "lastName": "User",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password", "value": "admin123", "temporary": false }
+      ],
+      "realmRoles": ["ROLE_USER", "ROLE_ADMIN"],
+      "attributes": {
+        "tenantId": ["00000000-0000-0000-0000-000000000001"]
+      }
+    }
+  ]
+}
