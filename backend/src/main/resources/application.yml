@@ -61,6 +61,8 @@ spring:
         specific.avro.reader: true
 
   # ── Security / OAuth2 Resource Server ────────────────────────────────────────
+  # The issuer-uri is left unset in the 'test' profile (see application-test.yml).
+  # Spring Boot only auto-configures JWT validation when this property is non-empty.
   security:
     oauth2:
       resourceserver:

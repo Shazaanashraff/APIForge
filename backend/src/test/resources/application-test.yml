@@ -1,0 +1,22 @@
+# Test profile — disables external services (Kafka, Redis, Keycloak)
+# so unit/integration tests can run without Docker.
+
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # In tests we disable JWT validation — controllers are not tested here
+          issuer-uri: ""
+
+  flyway:
+    locations: classpath:db/migration/test
+
+management:
+  tracing:
+    enabled: false
