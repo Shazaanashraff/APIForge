@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-06
-- **Section:** S01 — Project Skeleton & Docs Scaffold
-- **Checkpoint ID:** S01-COMPLETE
-- **Last commit:** `fd3fca9` — "ci: add GitHub Actions workflows, PR template, ADRs, and planning docs"
-- **Next file to work on:** `backend/src/main/resources/db/migration/V1__create_core_schema.sql`
-- **Resume instructions:** S01 is complete. Start S02 (Database & Persistence). Read `docs/plans/S02-database-and-persistence.md` for the detailed task list. First task: create Flyway migration V1 with core schema (tenants, users, projects, api_specs, test_runs, test_cases, test_results, load_metrics tables). Start the lite Docker stack first: `docker-compose -f docker-compose.lite.yml up -d`.
+- **Section:** S02 — Database & Persistence
+- **Checkpoint ID:** S02-COMPLETE
+- **Last commit:** `b50c3da` — "feat(db): add database layer — Flyway migrations, JPA entities, repositories, service"
+- **Next file to work on:** `observability/keycloak/realm-export.json`
+- **Resume instructions:** S02 is complete. Start S03 (Auth & Multi-Tenancy). Read `docs/plans/S03-auth-and-tenancy.md`. First task: create the Keycloak realm-export.json (S03-CP1), then wire up SecurityConfig with JWT validation (S03-CP2), then TenantContextHolder and TenantContextFilter (S03-CP3). Start the full Docker stack for Keycloak: `docker-compose up -d keycloak postgres redis`.
 
 ---
 
@@ -25,12 +25,17 @@
 - [x] **S01-CP5** — Frontend skeleton + both sample API skeletons (commit: `514608b`)
 - [x] **S01-CP6+CP7** — GitHub Actions CI, ADRs (0001/0002/0003), docs/plans S01–S23, examples (commit: `fd3fca9`)
 - [x] **S01-CP8** — Pushed to GitHub: https://github.com/Shazaanashraff/APIForge (all 6 commits)
+- [x] **S02-CP1** — Flyway migrations: V1 core schema, V2 TimescaleDB hypertable + continuous aggregate, V3 RLS policies
+- [x] **S02-CP2** — JPA entities: Tenant, User, Project, ApiSpec, TestRun, TestCase, TestResult, LoadMetric (all extend BaseEntity)
+- [x] **S02-CP3** — Repositories + ProjectService public API
+- [x] **S02-CP4** — Integration tests: ProjectServiceIntegrationTest (5 test cases) + FlywayMigrationTest (Testcontainers)
+- [x] **S02-CP5** — Compile verified (30 files, BUILD SUCCESS), committed + pushed (`b50c3da`)
 
 ---
 
 ## 🚧 IN PROGRESS
 
-*(none — S01 complete, S02 not yet started)*
+*(none — S02 complete, S03 not yet started)*
 
 ---
 
@@ -69,7 +74,7 @@
 | ID | Section | Status | Commit |
 |---|---|---|---|
 | S01 | Project Skeleton | ✅ Complete | `fd3fca9` |
-| S02 | Database & Persistence | ⬜ Pending | — |
+| S02 | Database & Persistence | ✅ Complete | `b50c3da` |
 | S03 | Auth & Multi-Tenancy | ⬜ Pending | — |
 | S04 | Observability Foundation | ⬜ Pending | — |
 | S05 | Schema Parser Module | ⬜ Pending | — |
