@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-06
-- **Section:** S03 — Auth & Multi-Tenancy
-- **Checkpoint ID:** S03-CP5 (pending commit+push)
-- **Last commit:** `b50c3da` — "feat(db): add database layer — Flyway migrations, JPA entities, repositories, service"
-- **Next file to work on:** commit + push S03, then start S04 (Observability: Micrometer, Prometheus, Grafana)
-- **Resume instructions:** S03 is fully coded (CP1–CP4 files all written). Commit the S03 changes (all new/modified files under `backend/src/`, `observability/keycloak/`, `docs/adr/0004-*.md`, `PROGRESS.md`, `pom.xml`). Then push to GitHub. After that, start S04: add Micrometer + Prometheus metrics, wire up Grafana dashboard, add a `/actuator/prometheus` scrape target to the Docker Compose observability stack.
+- **Section:** S04 — Observability Foundation
+- **Checkpoint ID:** S04-COMPLETE
+- **Last commit:** `671f416` — "feat(auth): S03 — Spring Security JWT resource server + RLS tenant isolation"
+- **Next file to work on:** `backend/src/main/java/.../modules/schema/` (S05 — Schema Parser)
+- **Resume instructions:** S04 is complete. Start S05 (Schema Parser Module). Read `docs/plans/S05-schema-parser.md`. The goal is to parse OpenAPI 3.x specs (and optionally Postman collections) into an internal `ParsedEndpoint` model, ready for the test case generator in S07. Key files: `SchemaParserService.java`, `OpenApiParser.java`, `ParsedEndpoint.java`, `ParsedSchema.java`.
 
 ---
 
@@ -34,12 +34,16 @@
 - [x] **S03-CP2** — SecurityConfig (JWT resource server, role extraction, CORS) + JwtTenantExtractor
 - [x] **S03-CP3** — TenantContextHolder + TenantContextFilter + TenantAwareQueryInterceptor (AOP RLS bridge)
 - [x] **S03-CP4** — TenantIsolationIntegrationTest (2 test cases; FORCE RLS via isolation-test Flyway location)
+- [x] **S04-CP1** — ObservabilityConfig (environment common tag) + MetricsConstants (canonical metric names for S05–S12)
+- [x] **S04-CP2** — OTLP/Tempo tracing: already configured in application.yml (100% sampling); verified
+- [x] **S04-CP3** — tenantId added to MDC in TenantContextFilter; logback-spring.xml already includes the key for Loki
+- [x] **S04-CP4** — apiforge-overview.json Grafana dashboard (8 panels: request rate, 5xx error rate, p50/p95/p99 latency, JVM heap, JVM threads, schema parse rate, executor rate) auto-provisioned via existing volume mount
 
 ---
 
 ## 🚧 IN PROGRESS
 
-- **S03-CP5** — Commit + push S03 changes (pending)
+*(none)*
 
 ---
 
@@ -79,8 +83,8 @@
 |---|---|---|---|
 | S01 | Project Skeleton | ✅ Complete | `fd3fca9` |
 | S02 | Database & Persistence | ✅ Complete | `b50c3da` |
-| S03 | Auth & Multi-Tenancy | 🔄 In Progress | — |
-| S04 | Observability Foundation | ⬜ Pending | — |
+| S03 | Auth & Multi-Tenancy | ✅ Complete | `671f416` |
+| S04 | Observability Foundation | ✅ Complete | — |
 | S05 | Schema Parser Module | ⬜ Pending | — |
 | S06 | Data Generator Module | ⬜ Pending | — |
 | S07 | Test Case Generator Module | ⬜ Pending | — |

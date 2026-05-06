@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -45,6 +46,9 @@ public class TenantContextFilter extends OncePerRequestFilter {
         UUID tenantId = jwtTenantExtractor.extract(jwt);
         if (tenantId != null) {
           TenantContextHolder.set(tenantId);
+          // Put tenantId in MDC so every log line in this request carries the tenant —
+          // logback-spring.xml (docker profile) includes this key in the JSON output for Loki.
+          MDC.put("tenantId", tenantId.toString());
           log.trace("Tenant context set: tenantId={}", tenantId);
         } else {
           log.warn("JWT present but tenantId claim is missing or invalid — path={}", request.getRequestURI());
@@ -55,6 +59,7 @@ public class TenantContextFilter extends OncePerRequestFilter {
 
     } finally {
       TenantContextHolder.clear();
+      MDC.remove("tenantId");
     }
   }
 }
