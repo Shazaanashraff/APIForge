@@ -7,12 +7,12 @@
 
 ## 🔖 LAST CHECKPOINT
 
-- **Date:** 2026-05-06
-- **Section:** S06 — Data Generator Module
-- **Checkpoint ID:** S06-COMPLETE
-- **Last commit:** `8767488` — "feat(schemaparser): S05 — OpenAPI + Postman schema parser module"
-- **Next file to work on:** `backend/src/main/java/.../modules/testcasegen/` (S07 — Test Case Generator)
-- **Resume instructions:** S06 is complete. Start S07 (Test Case Generator Module). Read `docs/plans/S07-test-case-generator.md`. The goal is to generate typed test cases (happy-path, boundary, negative, auth, rate-limit, etc.) from `Endpoint` records using `DataGenerator`. Key files: `TestCaseGeneratorService.java`, `HappyPathGenerator.java`, `BoundaryTestGenerator.java`, `AuthTestGenerator.java`.
+- **Date:** 2026-05-07
+- **Section:** S07 — Test Case Generator Module
+- **Checkpoint ID:** S07-COMPLETE
+- **Last commit:** `1a77eea` — "feat(datagenerator): S06 — seedable DataGenerator …"
+- **Next file to work on:** `backend/src/main/java/.../modules/codegen/` (S08 — Code Generator)
+- **Resume instructions:** S07 is complete. Start S08 (Code Generator Module). Read `docs/plans/S08-code-generator.md`. The goal is to render `TestCase` records (from S07) into runnable test code (e.g. RestAssured/JUnit 5). Key files: `CodeGeneratorService.java`, `RestAssuredCodeRenderer.java`, `TestFileWriter.java`.
 
 ---
 
@@ -43,6 +43,10 @@
 - [x] **S05-CP3** — PostmanParser (Postman v2.1, nested folder flattening, variable stripping)
 - [x] **S05-CP4** — SpecIngestionService (public module API: ingestFile, ingestUrl, introspect) + ParsedSpec
 - [x] **S05-CP5** — 31 unit tests pass: OpenApiParserTest (6), PaginationHintDetectorTest (8), PostmanParserTest (5), IdFormatDetectorTest (12)
+- [x] **S06-CP1–CP4** — DataGenerator (seedable), StringGenerator, NumberGenerator, ArrayGenerator, BoundaryValueProvider, MongoObjectIdGenerator; 53 tests pass (commit: `1a77eea`)
+- [x] **S07-CP1** — Model: TestCase, TestCategory, Assertion; infrastructure: TestCaseGenerator (interface), TestGenerationContext, TestCaseGeneratorRegistry
+- [x] **S07-CP2–CP3** — 11 generators: HappyPath, Boundary, Negative, Auth, Security, Idempotency, RateLimit, PerformanceSla, PayloadSize, Pagination, MongoSpecific; MongoBackedApiDetector; SecurityPayloads
+- [x] **S07-CP4** — 35 unit tests pass: HappyPathGeneratorTest (4), AuthGeneratorTest (6), SecurityGeneratorTest (5), PaginationGeneratorTest (7), PayloadSizeGeneratorTest (6), MongoSpecificGeneratorTest (7)
 
 ---
 
@@ -54,11 +58,11 @@
 
 ## 📋 UPCOMING (NEXT 5 SECTIONS)
 
-- [ ] **S02**: Database & Persistence (Postgres + TimescaleDB + Flyway + RLS)
-- [ ] **S03**: Auth & Multi-Tenancy (Spring Security + JWT + Keycloak)
-- [ ] **S04**: Observability Foundation (Micrometer + Prometheus + Grafana)
-- [ ] **S05**: Schema Parser Module (OpenAPI + Postman → internal model)
-- [ ] **S06**: Data Generator Module (Faker + JQwik + ObjectId)
+- [ ] **S08**: Code Generator Module (render TestCase → RestAssured/JUnit 5)
+- [ ] **S09**: Kafka Event Backbone
+- [ ] **S10**: Executor Module
+- [ ] **S11**: Validator Module
+- [ ] **S12**: Load Tester Module
 
 ---
 
@@ -91,8 +95,8 @@
 | S03 | Auth & Multi-Tenancy | ✅ Complete | `671f416` |
 | S04 | Observability Foundation | ✅ Complete | `7582676` |
 | S05 | Schema Parser Module | ✅ Complete | — |
-| S06 | Data Generator Module | ⬜ Pending | — |
-| S07 | Test Case Generator Module | ⬜ Pending | — |
+| S06 | Data Generator Module | ✅ Complete | `1a77eea` |
+| S07 | Test Case Generator Module | ✅ Complete | — |
 | S08 | Code Generator Module | ⬜ Pending | — |
 | S09 | Kafka Event Backbone | ⬜ Pending | — |
 | S10 | Executor Module | ⬜ Pending | — |
