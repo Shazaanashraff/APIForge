@@ -1,0 +1,16 @@
+{
+  "type": "record",
+  "name": "LoadMetricSampleEvent",
+  "namespace": "io.github.shazaanashraff.apiforge.events",
+  "doc": "One second of load-test telemetry, emitted continuously during a load run.",
+  "fields": [
+    { "name": "testRunId",          "type": "string", "doc": "UUID of the test run" },
+    { "name": "timestamp",          "type": "long",   "doc": "Epoch millis for this sample window" },
+    { "name": "virtualUsers",       "type": "int",    "doc": "Active virtual user count" },
+    { "name": "requestsPerSecond",  "type": "double", "doc": "Throughput in the sample window" },
+    { "name": "errorRate",          "type": "double", "doc": "Fraction of requests that errored (0..1)" },
+    { "name": "p50Ms",              "type": "long",   "doc": "Median response time" },
+    { "name": "p95Ms",              "type": "long",   "doc": "95th-percentile response time" },
+    { "name": "p99Ms",              "type": "long",   "doc": "99th-percentile response time" }
+  ]
+}

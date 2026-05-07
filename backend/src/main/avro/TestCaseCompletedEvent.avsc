@@ -1,0 +1,18 @@
+{
+  "type": "record",
+  "name": "TestCaseCompletedEvent",
+  "namespace": "io.github.shazaanashraff.apiforge.events",
+  "doc": "Fired after each test case is executed and validated.",
+  "fields": [
+    { "name": "testRunId",      "type": "string",                    "doc": "UUID of the test run" },
+    { "name": "testCaseId",     "type": "string",                    "doc": "UUID of the test case" },
+    { "name": "endpointPath",   "type": "string",                    "doc": "e.g. /pets/{id}" },
+    { "name": "httpMethod",     "type": "string",                    "doc": "GET, POST, etc." },
+    { "name": "category",       "type": "string",                    "doc": "HAPPY_PATH, SECURITY, etc." },
+    { "name": "statusCode",     "type": "int",                       "doc": "HTTP status code received" },
+    { "name": "responseTimeMs", "type": "long",                      "doc": "Wall-clock response time" },
+    { "name": "passed",         "type": "boolean",                   "doc": "All assertions passed" },
+    { "name": "failureReason",  "type": ["null", "string"],          "default": null, "doc": "Failure detail if not passed" },
+    { "name": "completedAt",    "type": "long",                      "doc": "Epoch millis" }
+  ]
+}

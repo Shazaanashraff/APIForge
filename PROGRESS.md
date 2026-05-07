@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-07
-- **Section:** S08 — Code Generator Module
-- **Checkpoint ID:** S08-COMPLETE
+- **Section:** S09 — Kafka Event Backbone
+- **Checkpoint ID:** S09-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** `backend/src/main/java/.../modules/` (S09 — Kafka Event Backbone)
-- **Resume instructions:** S08 is complete. Start S09 (Kafka Event Backbone). Read `docs/plans/S09-kafka-event-backbone.md`. The goal is to define Avro schemas + Kafka topics for test-run lifecycle events (TestRunRequested, TestCaseExecuted, TestRunCompleted). Key files: `TestRunRequestedEvent.java`, `KafkaTopicConfig.java`, `TestRunEventProducer.java`.
+- **Next file to work on:** `backend/src/main/java/.../modules/executor/` (S10 — Executor Module)
+- **Resume instructions:** S09 is complete. Start S10 (Executor Module). Read `docs/plans/S10-executor.md`. The goal is a reactive WebClient-based executor that runs TestCase records against a live API, publishes events via TestRunEventPublisher (S09). Key classes: `TestExecutorService.java`, `HttpRequestBuilder.java`, `AuthHeaderProvider.java`.
 
 ---
 
@@ -48,6 +48,7 @@
 - [x] **S07-CP2–CP3** — 11 generators: HappyPath, Boundary, Negative, Auth, Security, Idempotency, RateLimit, PerformanceSla, PayloadSize, Pagination, MongoSpecific; MongoBackedApiDetector; SecurityPayloads
 - [x] **S07-CP4** — 35 unit tests pass: HappyPathGeneratorTest (4), AuthGeneratorTest (6), SecurityGeneratorTest (5), PaginationGeneratorTest (7), PayloadSizeGeneratorTest (6), MongoSpecificGeneratorTest (7)
 - [x] **S08-CP1–CP4** — CodeFormat, GeneratedFile, CodeGenerationRequest, CodeGenerationResult, CodeGenerator; RestAssuredRenderer, JestSupertestRenderer, K6Renderer, GatlingRenderer; CodeGeneratorService, TestFileWriter; 18 unit tests pass: RestAssuredRendererTest (7), K6RendererTest (5), CodeGeneratorServiceTest (6)
+- [x] **S09-CP1–CP3** — KafkaTopics, KafkaTopicConfig, 4 event records (TestRunStarted/TestCaseCompleted/TestRunFinished/LoadMetricSample), TestRunEventPublisher; 4 Avro schema files; 13 unit tests pass: KafkaTopicConfigTest (5), TestRunEventPublisherTest (4), KafkaEventsTest (4)
 
 ---
 
@@ -60,8 +61,8 @@
 ## 📋 UPCOMING (NEXT 5 SECTIONS)
 
 - [x] **S08**: Code Generator Module (render TestCase → RestAssured/JUnit 5)  ✅
-- [ ] **S09**: Kafka Event Backbone  ← **NEXT**
-- [ ] **S10**: Executor Module
+- [x] **S09**: Kafka Event Backbone  ✅
+- [ ] **S10**: Executor Module  ← **NEXT**
 - [ ] **S11**: Validator Module
 - [ ] **S12**: Load Tester Module
 
@@ -99,7 +100,7 @@
 | S06 | Data Generator Module | ✅ Complete | `1a77eea` |
 | S07 | Test Case Generator Module | ✅ Complete | — |
 | S08 | Code Generator Module | ✅ Complete | — |
-| S09 | Kafka Event Backbone | ⬜ Pending | — |
+| S09 | Kafka Event Backbone | ✅ Complete | — |
 | S10 | Executor Module | ⬜ Pending | — |
 | S11 | Validator Module | ⬜ Pending | — |
 | S12 | Load Tester Module | ⬜ Pending | — |

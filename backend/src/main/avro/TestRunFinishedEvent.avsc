@@ -1,0 +1,16 @@
+{
+  "type": "record",
+  "name": "TestRunFinishedEvent",
+  "namespace": "io.github.shazaanashraff.apiforge.events",
+  "doc": "Fired when all test cases in a run have been executed.",
+  "fields": [
+    { "name": "testRunId",      "type": "string", "doc": "UUID of the test run" },
+    { "name": "projectId",      "type": "string", "doc": "UUID of the project" },
+    { "name": "tenantId",       "type": "string", "doc": "UUID of the tenant" },
+    { "name": "totalTestCases", "type": "int",    "doc": "Total cases executed" },
+    { "name": "passed",         "type": "int",    "doc": "Cases that passed all assertions" },
+    { "name": "failed",         "type": "int",    "doc": "Cases that failed at least one assertion" },
+    { "name": "skipped",        "type": "int",    "doc": "Cases skipped (e.g. inapplicable)" },
+    { "name": "finishedAt",     "type": "long",   "doc": "Epoch millis" }
+  ]
+}

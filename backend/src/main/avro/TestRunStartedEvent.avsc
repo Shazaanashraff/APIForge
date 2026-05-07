@@ -1,0 +1,14 @@
+{
+  "type": "record",
+  "name": "TestRunStartedEvent",
+  "namespace": "io.github.shazaanashraff.apiforge.events",
+  "doc": "Fired when a test run begins.",
+  "fields": [
+    { "name": "testRunId",      "type": "string",  "doc": "UUID of the test run" },
+    { "name": "projectId",      "type": "string",  "doc": "UUID of the project" },
+    { "name": "tenantId",       "type": "string",  "doc": "UUID of the tenant" },
+    { "name": "specName",       "type": "string",  "doc": "Name of the API spec being tested" },
+    { "name": "startedAt",      "type": "long",    "doc": "Epoch millis" },
+    { "name": "totalTestCases", "type": "int",     "doc": "Number of test cases queued" }
+  ]
+}
