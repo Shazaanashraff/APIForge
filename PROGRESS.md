@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-07
-- **Section:** S16 — Frontend Foundation
-- **Checkpoint ID:** S16-COMPLETE
+- **Section:** S17 — Frontend Spec & Project Mgmt
+- **Checkpoint ID:** S17-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** S17 — Frontend Spec & Project Mgmt
-- **Resume instructions:** S16 is complete. Start S17 (Frontend Spec & Project Mgmt). Implement Monaco-editor spec upload, project CRUD pages, and MongoDB flag toggle using the React Router + React Query + Zustand foundation from S16.
+- **Next file to work on:** S18 — Frontend Test Execution UI
+- **Resume instructions:** S17 is complete. Start S18 (Frontend Test Execution UI). Build category selector, test run trigger form, and SSE progress stream using EventSource connected to GET /api/runs/{runId}/events.
 
 ---
 
@@ -56,6 +56,7 @@
 - [x] **S14-CP1–CP3** — modules/api package; SpecController (/api/specs/parse multipart + /introspect), TestRunController (/api/runs full pipeline: ingestUrl→generateAll→executeAll), CodeController (/api/code/generate + /zip download); GlobalExceptionHandler (RFC 7807 ProblemDetail for SpecParseException/IllegalArgument/Exception); ApiForgeOpenApiConfig (SpringDoc bearer JWT); 12 unit tests pass: SpecControllerTest (3), TestRunControllerTest (3), CodeControllerTest (3), GlobalExceptionHandlerTest (3)
 - [x] **S15-CP1–CP3** — modules/sse: ProgressEventType, ProgressEvent record, RedisProgressConfig (RedisMessageListenerContainer bean), ProgressPublisher (@Service, StringRedisTemplate pub to "progress:{runId}"), SseController (GET /api/runs/{runId}/events, SseEmitter, dynamic ChannelTopic listener); 6 unit tests pass
 - [x] **S16-CP1–CP3** — React+Vite+TS+Tailwind frontend wired up: tailwind.config.js, postcss.config.js, tsconfig.node.json, vite-env.d.ts; oidcConfig (Keycloak, react-oidc-context), apiClient (Axios + setAuthToken), authStore (Zustand); Shell/Sidebar/Navbar layout, ProtectedRoute, DashboardPage, NotFoundPage, React Router (createBrowserRouter); 6 vitest tests pass, TypeScript clean, Vite build succeeds
+- [x] **S17-CP1–CP3** — types/spec.ts + types/project.ts; specApi (parseSpecFile multipart, introspectSpec URL-encoded); projectStore (Zustand persist: add/update/remove); ParseResults table component (method badge, endpoint list); ProjectCard (delete, Mongo toggle switch); CreateProjectModal (form with name/desc/specUrl/mongoEnabled); SpecsPage (Monaco editor + file upload + URL introspect + results); ProjectsPage (grid + filter + modal); 12 vitest tests pass, TypeScript clean, Vite build succeeds
 
 ---
 
@@ -76,7 +77,8 @@
 - [x] **S14**: REST API Layer  ✅
 - [x] **S15**: Real-Time Progress (SSE)  ✅
 - [x] **S16**: Frontend — Foundation  ✅
-- [ ] **S17**: Frontend — Spec & Project Mgmt  ← **NEXT**
+- [x] **S17**: Frontend — Spec & Project Mgmt  ✅
+- [ ] **S18**: Frontend — Test Execution UI  ← **NEXT**
 
 ---
 
@@ -120,7 +122,7 @@
 | S14 | REST API Layer | ✅ Complete | — |
 | S15 | Real-Time Progress (SSE) | ✅ Complete | — |
 | S16 | Frontend — Foundation | ✅ Complete | — |
-| S17 | Frontend — Spec & Project Mgmt | ⬜ Pending | — |
+| S17 | Frontend — Spec & Project Mgmt | ✅ Complete | — |
 | S18 | Frontend — Test Execution UI | ⬜ Pending | — |
 | S19 | Frontend — Reports & Viz | ⬜ Pending | — |
 | S20 | Sample Buggy APIs | ⬜ Pending | — |
