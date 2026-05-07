@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-07
-- **Section:** S13 — Reporter Module
-- **Checkpoint ID:** S13-COMPLETE
+- **Section:** S14 — REST API Layer
+- **Checkpoint ID:** S14-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** REST API Layer (S14) — Spring MVC controllers for schema parsing, test generation, execution, validation, reporting
-- **Resume instructions:** S13 is complete. Start S14 (REST API Layer). Read `docs/plans/S14-api.md`. Build Spring MVC controllers that expose modules S05–S13 as REST endpoints, add SpringDoc/OpenAPI, and RFC 7807 error handling.
+- **Next file to work on:** S15 — Real-Time Progress (SSE) — SSE endpoint + Redis pub/sub
+- **Resume instructions:** S14 is complete. Start S15 (Real-Time Progress). Read `docs/plans/S15-sse.md`. Implement a Server-Sent Events endpoint that streams test execution progress to the frontend via Redis pub/sub.
 
 ---
 
@@ -53,6 +53,7 @@
 - [x] **S11-CP1–CP3** — ViolationType, ValidationViolation, ValidationRequest, ValidationResult; StatusCodeValidator (spec-declared status check), JsonBodyValidator (everit-json-schema), SlaValidator (SlaHint threshold); ResponseValidatorService orchestrates all three; 14 unit tests pass: StatusCodeValidatorTest (3), SlaValidatorTest (3), JsonBodyValidatorTest (4), ResponseValidatorServiceTest (4)
 - [x] **S12-CP1–CP3** — LoadScenario, LoadSample, LoadTestResult; PercentileCalculator (ceil-index formula); MetricsCollector (CopyOnWriteArrayList, summarize with percentiles); LoadTesterService (virtual threads via Executors.newVirtualThreadPerTaskExecutor, java.net.http.HttpClient, 1-second sampler loop, TimescaleDB persistence, optional Kafka event); 8 unit tests pass: PercentileCalculatorTest (4), MetricsCollectorTest (4)
 - [x] **S13-CP1–CP3** — ReportFormat, ReportOutput, ReportRequest, ReportRenderer (interface); HtmlReportRenderer (grouped by category, styled table), JsonReportRenderer (Jackson pretty-print), JUnitXmlRenderer (testsuite/testcase/failure elements); ReporterService (EnumMap strategy); 12 unit tests pass: HtmlReportRendererTest (3), JsonReportRendererTest (3), JUnitXmlRendererTest (3), ReporterServiceTest (3)
+- [x] **S14-CP1–CP3** — modules/api package; SpecController (/api/specs/parse multipart + /introspect), TestRunController (/api/runs full pipeline: ingestUrl→generateAll→executeAll), CodeController (/api/code/generate + /zip download); GlobalExceptionHandler (RFC 7807 ProblemDetail for SpecParseException/IllegalArgument/Exception); ApiForgeOpenApiConfig (SpringDoc bearer JWT); 12 unit tests pass: SpecControllerTest (3), TestRunControllerTest (3), CodeControllerTest (3), GlobalExceptionHandlerTest (3)
 
 ---
 
@@ -70,7 +71,8 @@
 - [x] **S11**: Validator Module  ✅
 - [x] **S12**: Load Tester Module  ✅
 - [x] **S13**: Reporter Module  ✅
-- [ ] **S14**: REST API Layer  ← **NEXT**
+- [x] **S14**: REST API Layer  ✅
+- [ ] **S15**: Real-Time Progress (SSE)  ← **NEXT**
 
 ---
 
@@ -111,7 +113,7 @@
 | S11 | Validator Module | ✅ Complete | — |
 | S12 | Load Tester Module | ✅ Complete | — |
 | S13 | Reporter Module | ✅ Complete | — |
-| S14 | REST API Layer | ⬜ Pending | — |
+| S14 | REST API Layer | ✅ Complete | — |
 | S15 | Real-Time Progress (SSE) | ⬜ Pending | — |
 | S16 | Frontend — Foundation | ⬜ Pending | — |
 | S17 | Frontend — Spec & Project Mgmt | ⬜ Pending | — |
