@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-07
-- **Section:** S07 — Test Case Generator Module
-- **Checkpoint ID:** S07-COMPLETE
-- **Last commit:** `1a77eea` — "feat(datagenerator): S06 — seedable DataGenerator …"
-- **Next file to work on:** `backend/src/main/java/.../modules/codegen/` (S08 — Code Generator)
-- **Resume instructions:** S07 is complete. Start S08 (Code Generator Module). Read `docs/plans/S08-code-generator.md`. The goal is to render `TestCase` records (from S07) into runnable test code (e.g. RestAssured/JUnit 5). Key files: `CodeGeneratorService.java`, `RestAssuredCodeRenderer.java`, `TestFileWriter.java`.
+- **Section:** S08 — Code Generator Module
+- **Checkpoint ID:** S08-COMPLETE
+- **Last commit:** *(see git log)*
+- **Next file to work on:** `backend/src/main/java/.../modules/` (S09 — Kafka Event Backbone)
+- **Resume instructions:** S08 is complete. Start S09 (Kafka Event Backbone). Read `docs/plans/S09-kafka-event-backbone.md`. The goal is to define Avro schemas + Kafka topics for test-run lifecycle events (TestRunRequested, TestCaseExecuted, TestRunCompleted). Key files: `TestRunRequestedEvent.java`, `KafkaTopicConfig.java`, `TestRunEventProducer.java`.
 
 ---
 
@@ -47,6 +47,7 @@
 - [x] **S07-CP1** — Model: TestCase, TestCategory, Assertion; infrastructure: TestCaseGenerator (interface), TestGenerationContext, TestCaseGeneratorRegistry
 - [x] **S07-CP2–CP3** — 11 generators: HappyPath, Boundary, Negative, Auth, Security, Idempotency, RateLimit, PerformanceSla, PayloadSize, Pagination, MongoSpecific; MongoBackedApiDetector; SecurityPayloads
 - [x] **S07-CP4** — 35 unit tests pass: HappyPathGeneratorTest (4), AuthGeneratorTest (6), SecurityGeneratorTest (5), PaginationGeneratorTest (7), PayloadSizeGeneratorTest (6), MongoSpecificGeneratorTest (7)
+- [x] **S08-CP1–CP4** — CodeFormat, GeneratedFile, CodeGenerationRequest, CodeGenerationResult, CodeGenerator; RestAssuredRenderer, JestSupertestRenderer, K6Renderer, GatlingRenderer; CodeGeneratorService, TestFileWriter; 18 unit tests pass: RestAssuredRendererTest (7), K6RendererTest (5), CodeGeneratorServiceTest (6)
 
 ---
 
@@ -58,8 +59,8 @@
 
 ## 📋 UPCOMING (NEXT 5 SECTIONS)
 
-- [ ] **S08**: Code Generator Module (render TestCase → RestAssured/JUnit 5)
-- [ ] **S09**: Kafka Event Backbone
+- [x] **S08**: Code Generator Module (render TestCase → RestAssured/JUnit 5)  ✅
+- [ ] **S09**: Kafka Event Backbone  ← **NEXT**
 - [ ] **S10**: Executor Module
 - [ ] **S11**: Validator Module
 - [ ] **S12**: Load Tester Module
@@ -97,7 +98,7 @@
 | S05 | Schema Parser Module | ✅ Complete | — |
 | S06 | Data Generator Module | ✅ Complete | `1a77eea` |
 | S07 | Test Case Generator Module | ✅ Complete | — |
-| S08 | Code Generator Module | ⬜ Pending | — |
+| S08 | Code Generator Module | ✅ Complete | — |
 | S09 | Kafka Event Backbone | ⬜ Pending | — |
 | S10 | Executor Module | ⬜ Pending | — |
 | S11 | Validator Module | ⬜ Pending | — |
