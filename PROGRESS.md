@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-07
-- **Section:** S10 — Executor Module
-- **Checkpoint ID:** S10-COMPLETE
+- **Section:** S11 — Validator Module
+- **Checkpoint ID:** S11-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** `backend/src/main/java/.../modules/validator/` (S11 — Validator Module)
-- **Resume instructions:** S10 is complete. Start S11 (Validator Module). Read `docs/plans/S11-validator.md`. The Validator checks actual API responses against OpenAPI/Postman schemas — it sits between the Executor (which captures responses) and the Reporter (which aggregates results).
+- **Next file to work on:** `backend/src/main/java/.../modules/loadtester/` (S12 — Load Tester Module)
+- **Resume instructions:** S11 is complete. Start S12 (Load Tester Module). Read `docs/plans/S12-loadtester.md`. The Load Tester runs virtual-user scenarios against the API under test, collecting timing metrics stored in TimescaleDB.
 
 ---
 
@@ -50,6 +50,7 @@
 - [x] **S08-CP1–CP4** — CodeFormat, GeneratedFile, CodeGenerationRequest, CodeGenerationResult, CodeGenerator; RestAssuredRenderer, JestSupertestRenderer, K6Renderer, GatlingRenderer; CodeGeneratorService, TestFileWriter; 18 unit tests pass: RestAssuredRendererTest (7), K6RendererTest (5), CodeGeneratorServiceTest (6)
 - [x] **S09-CP1–CP3** — KafkaTopics, KafkaTopicConfig, 4 event records (TestRunStarted/TestCaseCompleted/TestRunFinished/LoadMetricSample), TestRunEventPublisher; 4 Avro schema files; 13 unit tests pass: KafkaTopicConfigTest (5), TestRunEventPublisherTest (4), KafkaEventsTest (4)
 - [x] **S10-CP1–CP3** — AuthRequirement, AuthHeaderProvider, VariableStore, VariableExtractor, HttpRequestBuilder, TestExecutorService (reactive WebClient + Flux.flatMap + Optional Kafka publisher); ExecutionConfig, ExecutionRequest, TestCaseResult, ExecutionResult; 15 unit tests pass: AuthHeaderProviderTest (4), VariableStoreTest (4), VariableExtractorTest (4), HttpRequestBuilderTest (3)
+- [x] **S11-CP1–CP3** — ViolationType, ValidationViolation, ValidationRequest, ValidationResult; StatusCodeValidator (spec-declared status check), JsonBodyValidator (everit-json-schema), SlaValidator (SlaHint threshold); ResponseValidatorService orchestrates all three; 14 unit tests pass: StatusCodeValidatorTest (3), SlaValidatorTest (3), JsonBodyValidatorTest (4), ResponseValidatorServiceTest (4)
 
 ---
 
@@ -64,8 +65,8 @@
 - [x] **S08**: Code Generator Module (render TestCase → RestAssured/JUnit 5)  ✅
 - [x] **S09**: Kafka Event Backbone  ✅
 - [x] **S10**: Executor Module  ✅
-- [ ] **S11**: Validator Module  ← **NEXT**
-- [ ] **S12**: Load Tester Module
+- [x] **S11**: Validator Module  ✅
+- [ ] **S12**: Load Tester Module  ← **NEXT**
 
 ---
 
@@ -103,7 +104,7 @@
 | S08 | Code Generator Module | ✅ Complete | — |
 | S09 | Kafka Event Backbone | ✅ Complete | — |
 | S10 | Executor Module | ✅ Complete | — |
-| S11 | Validator Module | ⬜ Pending | — |
+| S11 | Validator Module | ✅ Complete | — |
 | S12 | Load Tester Module | ⬜ Pending | — |
 | S13 | Reporter Module | ⬜ Pending | — |
 | S14 | REST API Layer | ⬜ Pending | — |
