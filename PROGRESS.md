@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-07
-- **Section:** S09 — Kafka Event Backbone
-- **Checkpoint ID:** S09-COMPLETE
+- **Section:** S10 — Executor Module
+- **Checkpoint ID:** S10-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** `backend/src/main/java/.../modules/executor/` (S10 — Executor Module)
-- **Resume instructions:** S09 is complete. Start S10 (Executor Module). Read `docs/plans/S10-executor.md`. The goal is a reactive WebClient-based executor that runs TestCase records against a live API, publishes events via TestRunEventPublisher (S09). Key classes: `TestExecutorService.java`, `HttpRequestBuilder.java`, `AuthHeaderProvider.java`.
+- **Next file to work on:** `backend/src/main/java/.../modules/validator/` (S11 — Validator Module)
+- **Resume instructions:** S10 is complete. Start S11 (Validator Module). Read `docs/plans/S11-validator.md`. The Validator checks actual API responses against OpenAPI/Postman schemas — it sits between the Executor (which captures responses) and the Reporter (which aggregates results).
 
 ---
 
@@ -49,6 +49,7 @@
 - [x] **S07-CP4** — 35 unit tests pass: HappyPathGeneratorTest (4), AuthGeneratorTest (6), SecurityGeneratorTest (5), PaginationGeneratorTest (7), PayloadSizeGeneratorTest (6), MongoSpecificGeneratorTest (7)
 - [x] **S08-CP1–CP4** — CodeFormat, GeneratedFile, CodeGenerationRequest, CodeGenerationResult, CodeGenerator; RestAssuredRenderer, JestSupertestRenderer, K6Renderer, GatlingRenderer; CodeGeneratorService, TestFileWriter; 18 unit tests pass: RestAssuredRendererTest (7), K6RendererTest (5), CodeGeneratorServiceTest (6)
 - [x] **S09-CP1–CP3** — KafkaTopics, KafkaTopicConfig, 4 event records (TestRunStarted/TestCaseCompleted/TestRunFinished/LoadMetricSample), TestRunEventPublisher; 4 Avro schema files; 13 unit tests pass: KafkaTopicConfigTest (5), TestRunEventPublisherTest (4), KafkaEventsTest (4)
+- [x] **S10-CP1–CP3** — AuthRequirement, AuthHeaderProvider, VariableStore, VariableExtractor, HttpRequestBuilder, TestExecutorService (reactive WebClient + Flux.flatMap + Optional Kafka publisher); ExecutionConfig, ExecutionRequest, TestCaseResult, ExecutionResult; 15 unit tests pass: AuthHeaderProviderTest (4), VariableStoreTest (4), VariableExtractorTest (4), HttpRequestBuilderTest (3)
 
 ---
 
@@ -62,8 +63,8 @@
 
 - [x] **S08**: Code Generator Module (render TestCase → RestAssured/JUnit 5)  ✅
 - [x] **S09**: Kafka Event Backbone  ✅
-- [ ] **S10**: Executor Module  ← **NEXT**
-- [ ] **S11**: Validator Module
+- [x] **S10**: Executor Module  ✅
+- [ ] **S11**: Validator Module  ← **NEXT**
 - [ ] **S12**: Load Tester Module
 
 ---
@@ -101,7 +102,7 @@
 | S07 | Test Case Generator Module | ✅ Complete | — |
 | S08 | Code Generator Module | ✅ Complete | — |
 | S09 | Kafka Event Backbone | ✅ Complete | — |
-| S10 | Executor Module | ⬜ Pending | — |
+| S10 | Executor Module | ✅ Complete | — |
 | S11 | Validator Module | ⬜ Pending | — |
 | S12 | Load Tester Module | ⬜ Pending | — |
 | S13 | Reporter Module | ⬜ Pending | — |
