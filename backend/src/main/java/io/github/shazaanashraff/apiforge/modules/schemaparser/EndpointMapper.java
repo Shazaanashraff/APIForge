@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
@@ -22,8 +21,8 @@ import org.springframework.stereotype.Component;
 /**
  * Converts a swagger-parser {@link OpenAPI} model into our internal {@link Endpoint} records.
  *
- * <p>Note: local variable {@code swaggerParam} is used throughout to avoid import collision
- * with our own {@link Parameter} record.
+ * <p>Note: local variable {@code swaggerParam} is used throughout to avoid import collision with
+ * our own {@link Parameter} record.
  */
 @Slf4j
 @Component
@@ -44,23 +43,19 @@ class EndpointMapper {
       String path = entry.getKey();
       PathItem pathItem = entry.getValue();
 
-      mapOperation(path, HttpMethod.GET,    pathItem.getGet(),    openAPI, endpoints);
-      mapOperation(path, HttpMethod.POST,   pathItem.getPost(),   openAPI, endpoints);
-      mapOperation(path, HttpMethod.PUT,    pathItem.getPut(),    openAPI, endpoints);
+      mapOperation(path, HttpMethod.GET, pathItem.getGet(), openAPI, endpoints);
+      mapOperation(path, HttpMethod.POST, pathItem.getPost(), openAPI, endpoints);
+      mapOperation(path, HttpMethod.PUT, pathItem.getPut(), openAPI, endpoints);
       mapOperation(path, HttpMethod.DELETE, pathItem.getDelete(), openAPI, endpoints);
-      mapOperation(path, HttpMethod.PATCH,  pathItem.getPatch(),  openAPI, endpoints);
-      mapOperation(path, HttpMethod.HEAD,   pathItem.getHead(),   openAPI, endpoints);
-      mapOperation(path, HttpMethod.OPTIONS,pathItem.getOptions(),openAPI, endpoints);
+      mapOperation(path, HttpMethod.PATCH, pathItem.getPatch(), openAPI, endpoints);
+      mapOperation(path, HttpMethod.HEAD, pathItem.getHead(), openAPI, endpoints);
+      mapOperation(path, HttpMethod.OPTIONS, pathItem.getOptions(), openAPI, endpoints);
     }
     return endpoints;
   }
 
   private void mapOperation(
-      String path,
-      HttpMethod method,
-      Operation operation,
-      OpenAPI openAPI,
-      List<Endpoint> out) {
+      String path, HttpMethod method, Operation operation, OpenAPI openAPI, List<Endpoint> out) {
     if (operation == null) {
       return;
     }
@@ -75,12 +70,21 @@ class EndpointMapper {
     IdFormatHint idFormat = detectIdFormat(params);
     List<String> tags = operation.getTags() != null ? List.copyOf(operation.getTags()) : List.of();
 
-    out.add(new Endpoint(
-        path, method,
-        operation.getOperationId(),
-        operation.getSummary(),
-        params, body, responses,
-        auth, pagination, payloadSize, sla, idFormat, tags));
+    out.add(
+        new Endpoint(
+            path,
+            method,
+            operation.getOperationId(),
+            operation.getSummary(),
+            params,
+            body,
+            responses,
+            auth,
+            pagination,
+            payloadSize,
+            sla,
+            idFormat,
+            tags));
   }
 
   private List<Parameter> mapParameters(
@@ -92,13 +96,14 @@ class EndpointMapper {
     for (io.swagger.v3.oas.models.parameters.Parameter sp : swaggerParams) {
       String type = sp.getSchema() != null ? sp.getSchema().getType() : null;
       String format = sp.getSchema() != null ? sp.getSchema().getFormat() : null;
-      result.add(new Parameter(
-          sp.getName(),
-          sp.getIn(),
-          Boolean.TRUE.equals(sp.getRequired()) || "path".equals(sp.getIn()),
-          type,
-          format,
-          sp.getDescription()));
+      result.add(
+          new Parameter(
+              sp.getName(),
+              sp.getIn(),
+              Boolean.TRUE.equals(sp.getRequired()) || "path".equals(sp.getIn()),
+              type,
+              format,
+              sp.getDescription()));
     }
     return result;
   }
@@ -108,10 +113,11 @@ class EndpointMapper {
       return null;
     }
     Content content = rb.getContent();
-    String contentType = content.keySet().stream()
-        .filter(ct -> ct.contains("json"))
-        .findFirst()
-        .orElse(content.keySet().stream().findFirst().orElse("application/json"));
+    String contentType =
+        content.keySet().stream()
+            .filter(ct -> ct.contains("json"))
+            .findFirst()
+            .orElse(content.keySet().stream().findFirst().orElse("application/json"));
     MediaType mt = content.get(contentType);
     String schemaJson = schemaToJson(mt != null ? mt.getSchema() : null);
     return new RequestBodySchema(Boolean.TRUE.equals(rb.getRequired()), contentType, schemaJson);
@@ -165,15 +171,17 @@ class EndpointMapper {
           return AuthRequirement.BASIC;
         }
         // Peek at the scheme definition for type
-        if (openAPI.getComponents() != null && openAPI.getComponents().getSecuritySchemes() != null) {
+        if (openAPI.getComponents() != null
+            && openAPI.getComponents().getSecuritySchemes() != null) {
           var scheme = openAPI.getComponents().getSecuritySchemes().get(schemeName);
           if (scheme != null) {
             return switch (scheme.getType()) {
               case OAUTH2, OPENIDCONNECT -> AuthRequirement.BEARER_JWT;
               case APIKEY -> AuthRequirement.API_KEY;
-              case HTTP -> "basic".equalsIgnoreCase(scheme.getScheme())
-                  ? AuthRequirement.BASIC
-                  : AuthRequirement.BEARER_JWT;
+              case HTTP ->
+                  "basic".equalsIgnoreCase(scheme.getScheme())
+                      ? AuthRequirement.BASIC
+                      : AuthRequirement.BEARER_JWT;
               default -> AuthRequirement.BEARER_JWT;
             };
           }
@@ -209,7 +217,8 @@ class EndpointMapper {
     if (raw instanceof String s) {
       try {
         return new SlaHint(Long.parseLong(s));
-      } catch (NumberFormatException ignored) {}
+      } catch (NumberFormatException ignored) {
+      }
     }
     return SlaHint.none();
   }

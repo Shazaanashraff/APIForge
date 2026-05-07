@@ -28,20 +28,50 @@ class MongoSpecificGenerator implements TestCaseGenerator {
       String tooShort = validId.substring(0, 23);
       String tooLong = validId + "f";
 
-      cases.add(mongoCase(ep, p, validId, "valid ObjectId", false,
-          List.of(Assertion.statusCodeRange("2xx"))));
-      cases.add(mongoCase(ep, p, tooShort, "23-char hex (too short)", true,
-          List.of(Assertion.statusCodeRange("4xx"))));
-      cases.add(mongoCase(ep, p, tooLong, "25-char hex (too long)", true,
-          List.of(Assertion.statusCodeRange("4xx"))));
-      cases.add(mongoCase(ep, p, ctx.dataGenerator().objectIds().invalidObjectId(),
-          "24 chars with non-hex characters", true, List.of(Assertion.statusCodeRange("4xx"))));
-      cases.add(mongoCase(ep, p, ctx.dataGenerator().objectIds().uuidLookingObjectId(),
-          "UUID instead of ObjectId", true, List.of(Assertion.statusCodeRange("4xx"))));
-      cases.add(mongoCase(ep, p, "", "empty string", true,
-          List.of(Assertion.statusCode(400))));
-      cases.add(mongoCase(ep, p, "{$ne:null}", "NoSQL injection in path param", true,
-          List.of(Assertion.statusCodeRange("4xx"))));
+      cases.add(
+          mongoCase(
+              ep, p, validId, "valid ObjectId", false, List.of(Assertion.statusCodeRange("2xx"))));
+      cases.add(
+          mongoCase(
+              ep,
+              p,
+              tooShort,
+              "23-char hex (too short)",
+              true,
+              List.of(Assertion.statusCodeRange("4xx"))));
+      cases.add(
+          mongoCase(
+              ep,
+              p,
+              tooLong,
+              "25-char hex (too long)",
+              true,
+              List.of(Assertion.statusCodeRange("4xx"))));
+      cases.add(
+          mongoCase(
+              ep,
+              p,
+              ctx.dataGenerator().objectIds().invalidObjectId(),
+              "24 chars with non-hex characters",
+              true,
+              List.of(Assertion.statusCodeRange("4xx"))));
+      cases.add(
+          mongoCase(
+              ep,
+              p,
+              ctx.dataGenerator().objectIds().uuidLookingObjectId(),
+              "UUID instead of ObjectId",
+              true,
+              List.of(Assertion.statusCodeRange("4xx"))));
+      cases.add(mongoCase(ep, p, "", "empty string", true, List.of(Assertion.statusCode(400))));
+      cases.add(
+          mongoCase(
+              ep,
+              p,
+              "{$ne:null}",
+              "NoSQL injection in path param",
+              true,
+              List.of(Assertion.statusCodeRange("4xx"))));
     }
 
     // NoSQL injection in query params
@@ -76,9 +106,7 @@ class MongoSpecificGenerator implements TestCaseGenerator {
                 && ep.idFormatHint().format() == IdFormatHint.Format.OBJECTID);
     if (!looksMongoEndpoint) return List.of();
 
-    return ep.parameters().stream()
-        .filter(p -> "path".equals(p.in()) && isIdLike(p))
-        .toList();
+    return ep.parameters().stream().filter(p -> "path".equals(p.in()) && isIdLike(p)).toList();
   }
 
   private boolean isIdLike(Parameter p) {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
  * Infers the pagination style of an endpoint from its query parameter names.
  *
  * <p>Detection priority (first match wins):
+ *
  * <ol>
  *   <li>CURSOR — presence of "cursor", "after", "before", "next_token", "page_token"
  *   <li>PAGE_SIZE — presence of "page" paired with "size", "limit", or "per_page"
@@ -45,8 +46,7 @@ public class PaginationHintDetector {
     List<String> sizeMatches = names.stream().filter(SIZE_PARAMS::contains).toList();
     if (!pageMatches.isEmpty() && !sizeMatches.isEmpty()) {
       return new PaginationHint(
-          PaginationHint.Style.PAGE_SIZE,
-          List.of(pageMatches.get(0), sizeMatches.get(0)));
+          PaginationHint.Style.PAGE_SIZE, List.of(pageMatches.get(0), sizeMatches.get(0)));
     }
 
     // 3. Offset + limit
@@ -54,8 +54,7 @@ public class PaginationHintDetector {
     List<String> limitForOffset = names.stream().filter(n -> "limit".equals(n)).toList();
     if (!offsetMatches.isEmpty() && !limitForOffset.isEmpty()) {
       return new PaginationHint(
-          PaginationHint.Style.OFFSET_LIMIT,
-          List.of(offsetMatches.get(0), limitForOffset.get(0)));
+          PaginationHint.Style.OFFSET_LIMIT, List.of(offsetMatches.get(0), limitForOffset.get(0)));
     }
 
     // 4. Size/limit alone (single-param pagination — less common but valid)

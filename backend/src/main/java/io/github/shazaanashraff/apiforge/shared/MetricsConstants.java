@@ -3,10 +3,10 @@ package io.github.shazaanashraff.apiforge.shared;
 /**
  * Canonical metric names for all APIForge custom counters, timers, and gauges.
  *
- * <p>Using constants avoids typos across modules and makes it easy to find every metric
- * in a single grep. Follow the {@code apiforge.<module>.<noun>} naming convention.
- * All metrics are automatically tagged with {@code application} and {@code environment}
- * by {@link ObservabilityConfig}.
+ * <p>Using constants avoids typos across modules and makes it easy to find every metric in a single
+ * grep. Follow the {@code apiforge.<module>.<noun>} naming convention. All metrics are
+ * automatically tagged with {@code application} and {@code environment} by {@link
+ * ObservabilityConfig}.
  */
 public final class MetricsConstants {
 

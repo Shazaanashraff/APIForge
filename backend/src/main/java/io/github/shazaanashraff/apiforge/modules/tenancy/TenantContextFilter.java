@@ -21,8 +21,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *
  * <p>Execution order: this filter is registered as a plain {@code @Component}, which Spring Boot
  * places at {@code Ordered.LOWEST_PRECEDENCE} — AFTER Spring Security's {@code FilterChainProxy}
- * (order -100). By the time this filter runs, the JWT has already been validated and the
- * {@code SecurityContextHolder} has been populated, so we can safely read from it.
+ * (order -100). By the time this filter runs, the JWT has already been validated and the {@code
+ * SecurityContextHolder} has been populated, so we can safely read from it.
  *
  * <p>The {@code finally} block ensures {@link TenantContextHolder#clear()} always runs, preventing
  * thread-local leaks when threads are reused by the servlet container.
@@ -51,7 +51,9 @@ public class TenantContextFilter extends OncePerRequestFilter {
           MDC.put("tenantId", tenantId.toString());
           log.trace("Tenant context set: tenantId={}", tenantId);
         } else {
-          log.warn("JWT present but tenantId claim is missing or invalid — path={}", request.getRequestURI());
+          log.warn(
+              "JWT present but tenantId claim is missing or invalid — path={}",
+              request.getRequestURI());
         }
       }
 

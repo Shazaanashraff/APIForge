@@ -25,9 +25,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  * <p>All requests must carry a valid Bearer JWT issued by Keycloak (issuer-uri from
  * application.yml). The JWT is validated against Keycloak's JWKS endpoint automatically.
  *
- * <p>This config is NOT loaded in the "test" profile — integration tests use
- * {@code TestSecurityConfig} instead, which permits all requests so tests can call
- * the service layer without obtaining real Keycloak tokens.
+ * <p>This config is NOT loaded in the "test" profile — integration tests use {@code
+ * TestSecurityConfig} instead, which permits all requests so tests can call the service layer
+ * without obtaining real Keycloak tokens.
  */
 @Configuration
 @EnableWebSecurity
@@ -65,7 +65,8 @@ public class SecurityConfig {
         // Spring Boot reads spring.security.oauth2.resourceserver.jwt.issuer-uri
         // and fetches Keycloak's JWKS automatically to validate token signatures.
         .oauth2ResourceServer(
-            oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
+            oauth2 ->
+                oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
 
     return http.build();
   }

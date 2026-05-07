@@ -11,16 +11,15 @@ public class MongoBackedApiDetector {
   private static final Pattern OBJECTID_PATTERN = Pattern.compile("[0-9a-fA-F]{24}");
 
   /**
-   * Returns true when the endpoint set looks MongoDB-backed.
-   * Checks idFormatHint first; falls back to scanning response schema JSON for 24-char hex IDs.
+   * Returns true when the endpoint set looks MongoDB-backed. Checks idFormatHint first; falls back
+   * to scanning response schema JSON for 24-char hex IDs.
    */
   public boolean isMongoBacked(List<Endpoint> endpoints) {
     return endpoints.stream().anyMatch(this::looksMongoEndpoint);
   }
 
   public boolean looksMongoEndpoint(Endpoint ep) {
-    if (ep.idFormatHint() != null
-        && ep.idFormatHint().format() == IdFormatHint.Format.OBJECTID) {
+    if (ep.idFormatHint() != null && ep.idFormatHint().format() == IdFormatHint.Format.OBJECTID) {
       return true;
     }
     if (ep.responses() != null) {

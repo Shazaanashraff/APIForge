@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Global Micrometer configuration.
  *
- * <p>Registers common tags on every metric so Prometheus queries and Grafana dashboards can
- * filter by application name and deployment environment without adding those dimensions to
- * every individual metric definition.
+ * <p>Registers common tags on every metric so Prometheus queries and Grafana dashboards can filter
+ * by application name and deployment environment without adding those dimensions to every
+ * individual metric definition.
  *
  * <p>{@code application} tag: already set by {@code management.metrics.tags.application} in
  * application.yml (Spring Boot default). We add {@code environment} here as a supplementary tag.

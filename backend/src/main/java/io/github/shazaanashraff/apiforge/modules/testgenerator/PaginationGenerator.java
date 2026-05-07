@@ -34,18 +34,42 @@ class PaginationGenerator implements TestCaseGenerator {
     String offset = paramName(hint, "offset");
     String limit = paramName(hint, "limit");
     List<TestCase> cases = new ArrayList<>();
-    cases.add(paginationCase(ep, Map.of(offset, "0", limit, "10"), "first page",
-        List.of(Assertion.statusCodeRange("2xx"))));
-    cases.add(paginationCase(ep, Map.of(offset, "10", limit, "10"), "second page",
-        List.of(Assertion.statusCodeRange("2xx"))));
-    cases.add(paginationCase(ep, Map.of(offset, "999999", limit, "10"), "empty page (offset=999999)",
-        List.of(Assertion.statusCodeRange("2xx"))));
-    cases.add(paginationCase(ep, Map.of(offset, "-1", limit, "10"), "negative offset",
-        List.of(Assertion.statusCodeRange("any"))));
-    cases.add(paginationCase(ep, Map.of(offset, "0", limit, "0"), "limit=0",
-        List.of(Assertion.statusCodeRange("any"))));
-    cases.add(paginationCase(ep, Map.of(offset, "0", limit, "10000"), "limit=10000 (large)",
-        List.of(Assertion.statusCodeRange("any"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(offset, "0", limit, "10"),
+            "first page",
+            List.of(Assertion.statusCodeRange("2xx"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(offset, "10", limit, "10"),
+            "second page",
+            List.of(Assertion.statusCodeRange("2xx"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(offset, "999999", limit, "10"),
+            "empty page (offset=999999)",
+            List.of(Assertion.statusCodeRange("2xx"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(offset, "-1", limit, "10"),
+            "negative offset",
+            List.of(Assertion.statusCodeRange("any"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(offset, "0", limit, "0"),
+            "limit=0",
+            List.of(Assertion.statusCodeRange("any"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(offset, "0", limit, "10000"),
+            "limit=10000 (large)",
+            List.of(Assertion.statusCodeRange("any"))));
     return cases;
   }
 
@@ -53,30 +77,60 @@ class PaginationGenerator implements TestCaseGenerator {
     String page = paramName(hint, "page");
     String size = paramName(hint, "size", "limit", "per_page");
     List<TestCase> cases = new ArrayList<>();
-    cases.add(paginationCase(ep, Map.of(page, "0", size, "10"), "first page",
-        List.of(Assertion.statusCodeRange("2xx"))));
-    cases.add(paginationCase(ep, Map.of(page, "1", size, "10"), "second page",
-        List.of(Assertion.statusCodeRange("2xx"))));
-    cases.add(paginationCase(ep, Map.of(page, "999999", size, "10"), "page beyond data",
-        List.of(Assertion.statusCodeRange("2xx"))));
-    cases.add(paginationCase(ep, Map.of(page, "-1", size, "10"), "negative page",
-        List.of(Assertion.statusCodeRange("any"))));
-    cases.add(paginationCase(ep, Map.of(page, "0", size, "0"), "size=0",
-        List.of(Assertion.statusCodeRange("any"))));
-    cases.add(paginationCase(ep, Map.of(page, "0", size, "10000"), "size=10000 (large)",
-        List.of(Assertion.statusCodeRange("any"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(page, "0", size, "10"),
+            "first page",
+            List.of(Assertion.statusCodeRange("2xx"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(page, "1", size, "10"),
+            "second page",
+            List.of(Assertion.statusCodeRange("2xx"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(page, "999999", size, "10"),
+            "page beyond data",
+            List.of(Assertion.statusCodeRange("2xx"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(page, "-1", size, "10"),
+            "negative page",
+            List.of(Assertion.statusCodeRange("any"))));
+    cases.add(
+        paginationCase(
+            ep, Map.of(page, "0", size, "0"), "size=0", List.of(Assertion.statusCodeRange("any"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(page, "0", size, "10000"),
+            "size=10000 (large)",
+            List.of(Assertion.statusCodeRange("any"))));
     return cases;
   }
 
   private List<TestCase> generateCursor(Endpoint ep, PaginationHint hint) {
     String cursor = paramName(hint, "cursor", "after");
     List<TestCase> cases = new ArrayList<>();
-    cases.add(paginationCase(ep, Map.of(), "first page (no cursor)",
-        List.of(Assertion.statusCodeRange("2xx"))));
-    cases.add(paginationCase(ep, Map.of(cursor, "invalid-cursor-xyz"), "invalid cursor string",
-        List.of(Assertion.statusCodeRange("any"))));
-    cases.add(paginationCase(ep, Map.of(cursor, "x".repeat(1024)), "very long cursor",
-        List.of(Assertion.statusCodeRange("any"))));
+    cases.add(
+        paginationCase(
+            ep, Map.of(), "first page (no cursor)", List.of(Assertion.statusCodeRange("2xx"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(cursor, "invalid-cursor-xyz"),
+            "invalid cursor string",
+            List.of(Assertion.statusCodeRange("any"))));
+    cases.add(
+        paginationCase(
+            ep,
+            Map.of(cursor, "x".repeat(1024)),
+            "very long cursor",
+            List.of(Assertion.statusCodeRange("any"))));
     return cases;
   }
 

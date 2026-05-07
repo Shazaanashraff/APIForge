@@ -10,8 +10,8 @@ import lombok.Setter;
 /**
  * Mirrors a Keycloak user locally so we can do JOINs and audit logs.
  *
- * <p>We don't store passwords here — authentication is handled entirely by Keycloak. The
- * keycloakId field is the JWT "sub" claim, which uniquely identifies the user in Keycloak.
+ * <p>We don't store passwords here — authentication is handled entirely by Keycloak. The keycloakId
+ * field is the JWT "sub" claim, which uniquely identifies the user in Keycloak.
  */
 @Getter
 @Setter

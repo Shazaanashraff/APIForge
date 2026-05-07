@@ -19,7 +19,8 @@ class RateLimitGenerator implements TestCaseGenerator {
   public List<TestCase> generate(TestGenerationContext ctx) {
     Endpoint ep = ctx.endpoint();
     Map<String, String> pathParams = buildPathParams(ep, ctx);
-    Object body = ep.requestBody() != null ? ctx.dataGenerator().generatePayload(ep.requestBody()) : null;
+    Object body =
+        ep.requestBody() != null ? ctx.dataGenerator().generatePayload(ep.requestBody()) : null;
     int burst = ctx.rateLimitBurstCount();
 
     List<TestCase> cases = new ArrayList<>(burst);
@@ -45,7 +46,8 @@ class RateLimitGenerator implements TestCaseGenerator {
     Map<String, String> params = new HashMap<>();
     if (ep.parameters() == null) return params;
     for (Parameter p : ep.parameters()) {
-      if ("path".equals(p.in())) params.put(p.name(), ctx.dataGenerator().objectIds().validObjectId());
+      if ("path".equals(p.in()))
+        params.put(p.name(), ctx.dataGenerator().objectIds().validObjectId());
     }
     return params;
   }

@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
- * Enables JPA auditing so @CreatedDate and @LastModifiedDate on BaseEntity are
- * populated automatically.
+ * Enables JPA auditing so @CreatedDate and @LastModifiedDate on BaseEntity are populated
+ * automatically.
  */
 @Configuration
 @EnableJpaAuditing

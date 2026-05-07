@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
  * Infers the ID format (UUID vs MongoDB ObjectId) from a schema's declared format and pattern.
  *
  * <p>Detection rules (first match wins):
+ *
  * <ol>
  *   <li>{@code format: uuid} → UUID
  *   <li>{@code format: objectid} (vendor extension) → OBJECTID
@@ -17,7 +18,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class IdFormatDetector {
 
-  private static final Pattern OBJECTID_PATTERN = Pattern.compile("^\\^?\\[0-9a-fA-F\\]\\{24\\}\\$?$");
+  private static final Pattern OBJECTID_PATTERN =
+      Pattern.compile("^\\^?\\[0-9a-fA-F\\]\\{24\\}\\$?$");
   private static final Pattern OBJECTID_VALUE_PATTERN = Pattern.compile("^[0-9a-fA-F]{24}$");
 
   /**
@@ -40,8 +42,8 @@ public class IdFormatDetector {
   }
 
   /**
-   * Detects format from a concrete value string (e.g. an example or default value).
-   * Useful for Postman collections where only example values are available, not schemas.
+   * Detects format from a concrete value string (e.g. an example or default value). Useful for
+   * Postman collections where only example values are available, not schemas.
    */
   public IdFormatHint detectFromValue(String value) {
     if (value == null) {

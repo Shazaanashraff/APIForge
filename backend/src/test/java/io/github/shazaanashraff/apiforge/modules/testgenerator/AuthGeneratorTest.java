@@ -31,9 +31,7 @@ class AuthGeneratorTest {
     TestCase noToken = cases.get(0);
     assertThat(noToken.headers()).doesNotContainKey("Authorization");
     assertThat(noToken.expectedAssertions())
-        .anyMatch(
-            a ->
-                a.type() == Assertion.AssertionType.STATUS_CODE && a.value().equals("401"));
+        .anyMatch(a -> a.type() == Assertion.AssertionType.STATUS_CODE && a.value().equals("401"));
   }
 
   @Test
@@ -43,9 +41,7 @@ class AuthGeneratorTest {
     TestCase expiredToken = cases.get(1);
     assertThat(expiredToken.headers()).containsKey("Authorization");
     assertThat(expiredToken.expectedAssertions())
-        .anyMatch(
-            a ->
-                a.type() == Assertion.AssertionType.STATUS_CODE && a.value().equals("401"));
+        .anyMatch(a -> a.type() == Assertion.AssertionType.STATUS_CODE && a.value().equals("401"));
   }
 
   @Test
@@ -54,9 +50,7 @@ class AuthGeneratorTest {
 
     TestCase wrongScope = cases.get(2);
     assertThat(wrongScope.expectedAssertions())
-        .anyMatch(
-            a ->
-                a.type() == Assertion.AssertionType.STATUS_CODE && a.value().equals("403"));
+        .anyMatch(a -> a.type() == Assertion.AssertionType.STATUS_CODE && a.value().equals("403"));
   }
 
   @Test

@@ -68,7 +68,8 @@ class IdFormatDetectorTest {
 
   @Test
   void returnsUnknownForArbitraryString() {
-    assertThat(detector.detectFromValue("john-doe").format()).isEqualTo(IdFormatHint.Format.UNKNOWN);
+    assertThat(detector.detectFromValue("john-doe").format())
+        .isEqualTo(IdFormatHint.Format.UNKNOWN);
   }
 
   @Test
@@ -79,6 +80,7 @@ class IdFormatDetectorTest {
   @Test
   void shortHexIsNotObjectId() {
     // ObjectId is exactly 24 hex chars — 12 is too short
-    assertThat(detector.detectFromValue("507f1f77bcf8").format()).isEqualTo(IdFormatHint.Format.UNKNOWN);
+    assertThat(detector.detectFromValue("507f1f77bcf8").format())
+        .isEqualTo(IdFormatHint.Format.UNKNOWN);
   }
 }

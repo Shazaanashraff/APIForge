@@ -30,9 +30,9 @@ class NegativeGenerator implements TestCaseGenerator {
         ObjectNode schema = buildSchema(p.schemaType());
         Object invalid = ctx.dataGenerator().generateInvalidValue(schema);
         cases.add(
-            paramCase(ep, p, String.valueOf(invalid), "wrong type", List.of(Assertion.statusCode(400))));
-        cases.add(
-            paramCase(ep, p, "", "empty/null value", List.of(Assertion.statusCode(400))));
+            paramCase(
+                ep, p, String.valueOf(invalid), "wrong type", List.of(Assertion.statusCode(400))));
+        cases.add(paramCase(ep, p, "", "empty/null value", List.of(Assertion.statusCode(400))));
       }
     }
 

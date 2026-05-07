@@ -3,13 +3,13 @@ package io.github.shazaanashraff.apiforge.modules.project;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import io.github.shazaanashraff.apiforge.TestSecurityConfig;
 import io.github.shazaanashraff.apiforge.modules.tenancy.Tenant;
 import io.github.shazaanashraff.apiforge.modules.tenancy.TenantRepository;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import io.github.shazaanashraff.apiforge.TestSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -28,9 +28,9 @@ import org.testcontainers.utility.DockerImageName;
  * <p>Uses Testcontainers to spin up a real PostgreSQL instance. This runs all Flyway migrations
  * against a fresh DB, ensuring the schema is correct and the service layer works end-to-end.
  *
- * <p>NOTE: We use the standard postgres image here (not timescale) because TimescaleDB
- * availability in CI isn't guaranteed. The V2 migration is annotated to be skipped in the
- * 'test' Spring profile. The core schema (V1) and RLS (V3) still run.
+ * <p>NOTE: We use the standard postgres image here (not timescale) because TimescaleDB availability
+ * in CI isn't guaranteed. The V2 migration is annotated to be skipped in the 'test' Spring profile.
+ * The core schema (V1) and RLS (V3) still run.
  *
  * <p>Run with: mvnw verify -Pintegration
  */
@@ -57,11 +57,9 @@ class ProjectServiceIntegrationTest {
     registry.add("spring.datasource.password", postgres::getPassword);
   }
 
-  @Autowired
-  private ProjectService projectService;
+  @Autowired private ProjectService projectService;
 
-  @Autowired
-  private TenantRepository tenantRepository;
+  @Autowired private TenantRepository tenantRepository;
 
   private UUID tenantAId;
   private UUID tenantBId;
@@ -77,8 +75,8 @@ class ProjectServiceIntegrationTest {
 
   @Test
   void createAndRetrieveProject() {
-    Project created = projectService.createProject(
-        tenantAId, "My API", "http://localhost:8090", null);
+    Project created =
+        projectService.createProject(tenantAId, "My API", "http://localhost:8090", null);
 
     assertThat(created.getId()).isNotNull();
     assertThat(created.getName()).isEqualTo("My API");
@@ -116,11 +114,12 @@ class ProjectServiceIntegrationTest {
 
   @Test
   void updateProjectPersistsChanges() {
-    Project project = projectService.createProject(
-        tenantAId, "Original Name", "http://old.example.com", null);
+    Project project =
+        projectService.createProject(tenantAId, "Original Name", "http://old.example.com", null);
 
-    Project updated = projectService.updateProject(
-        project.getId(), "Updated Name", "http://new.example.com", true);
+    Project updated =
+        projectService.updateProject(
+            project.getId(), "Updated Name", "http://new.example.com", true);
 
     assertThat(updated.getName()).isEqualTo("Updated Name");
     assertThat(updated.getBaseUrl()).isEqualTo("http://new.example.com");

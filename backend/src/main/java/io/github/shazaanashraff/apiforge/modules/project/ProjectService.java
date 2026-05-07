@@ -48,7 +48,8 @@ public class ProjectService {
   }
 
   @Transactional
-  public Project updateProject(UUID projectId, String name, String baseUrl, boolean isMongoBackedApi) {
+  public Project updateProject(
+      UUID projectId, String name, String baseUrl, boolean isMongoBackedApi) {
     Project project = getProject(projectId);
     project.setName(name);
     project.setBaseUrl(baseUrl);

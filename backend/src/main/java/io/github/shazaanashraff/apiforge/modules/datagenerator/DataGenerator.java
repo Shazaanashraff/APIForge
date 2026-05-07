@@ -16,18 +16,20 @@ import net.datafaker.Faker;
  * Schema-aware, seedable test data generator.
  *
  * <p>Create with a fixed seed for deterministic test runs (same seed → same data):
+ *
  * <pre>{@code
  * DataGenerator gen = new DataGenerator(42L);
  * Map<String, Object> body = gen.generatePayload(endpoint.requestBody());
  * }</pre>
  *
  * <p>Create without a seed for random data:
+ *
  * <pre>{@code
  * DataGenerator gen = new DataGenerator();
  * }</pre>
  *
- * <p>This class is NOT a Spring bean — callers construct it with the seed they need.
- * The test case generator (S07) is responsible for choosing seeds.
+ * <p>This class is NOT a Spring bean — callers construct it with the seed they need. The test case
+ * generator (S07) is responsible for choosing seeds.
  */
 @Slf4j
 public class DataGenerator {
@@ -68,8 +70,8 @@ public class DataGenerator {
   // ── Main generation API ──────────────────────────────────────────────────
 
   /**
-   * Generates a single valid value conforming to the given JSON Schema node.
-   * Returns {@code null} when schema is null or empty.
+   * Generates a single valid value conforming to the given JSON Schema node. Returns {@code null}
+   * when schema is null or empty.
    */
   public Object generateValidValue(JsonNode schema) {
     if (schema == null || schema.isNull() || schema.isMissingNode()) {
@@ -90,17 +92,18 @@ public class DataGenerator {
 
     String type = schema.path("type").asText("string");
     return switch (type) {
-      case "string"           -> stringGen.generate(schema);
-      case "integer", "number"-> numberGen.generate(schema);
-      case "boolean"          -> random.nextBoolean();
-      case "array"            -> arrayGen.generate(schema);
-      case "object"           -> generateObject(schema);
-      default                 -> faker.lorem().word();
+      case "string" -> stringGen.generate(schema);
+      case "integer", "number" -> numberGen.generate(schema);
+      case "boolean" -> random.nextBoolean();
+      case "array" -> arrayGen.generate(schema);
+      case "object" -> generateObject(schema);
+      default -> faker.lorem().word();
     };
   }
 
   /**
    * Generates boundary values for a schema field:
+   *
    * <ul>
    *   <li>Strings: empty, at minLength, at maxLength, over maxLength
    *   <li>Numbers: at min, at max, below min, above max
@@ -114,8 +117,7 @@ public class DataGenerator {
     return switch (type) {
       case "integer", "number" ->
           bvp.integerBoundaries(schema).stream().map(v -> (Object) v).toList();
-      case "string" ->
-          bvp.stringBoundaries(schema).stream().map(v -> (Object) v).toList();
+      case "string" -> bvp.stringBoundaries(schema).stream().map(v -> (Object) v).toList();
       case "array" -> {
         List<Integer> sizes = bvp.arrayBoundaries(schema);
         List<Object> result = new ArrayList<>();
@@ -141,18 +143,18 @@ public class DataGenerator {
     if (schema == null) return null;
     String type = schema.path("type").asText("string");
     return switch (type) {
-      case "string"  -> random.nextInt(10000);        // number instead of string
-      case "integer" -> faker.lorem().word();         // string instead of number
-      case "boolean" -> "maybe";                      // not a boolean
-      case "array"   -> faker.lorem().word();         // string instead of array
-      case "object"  -> "not-an-object";
-      default        -> null;
+      case "string" -> random.nextInt(10000); // number instead of string
+      case "integer" -> faker.lorem().word(); // string instead of number
+      case "boolean" -> "maybe"; // not a boolean
+      case "array" -> faker.lorem().word(); // string instead of array
+      case "object" -> "not-an-object";
+      default -> null;
     };
   }
 
   /**
-   * Generates a complete request body as a {@code Map<String, Object>} from a
-   * {@link RequestBodySchema}. Returns an empty map when the schema is null or unparseable.
+   * Generates a complete request body as a {@code Map<String, Object>} from a {@link
+   * RequestBodySchema}. Returns an empty map when the schema is null or unparseable.
    */
   @SuppressWarnings("unchecked")
   public Map<String, Object> generatePayload(RequestBodySchema requestBodySchema) {
@@ -173,8 +175,8 @@ public class DataGenerator {
   }
 
   /**
-   * Generates a payload that is {@code multiplier} times the declared max size.
-   * Used for oversized-payload security/robustness tests.
+   * Generates a payload that is {@code multiplier} times the declared max size. Used for
+   * oversized-payload security/robustness tests.
    */
   public byte[] generateOversizedPayload(RequestBodySchema requestBodySchema, int multiplier) {
     if (requestBodySchema == null) {
@@ -198,15 +200,19 @@ public class DataGenerator {
       return result;
     }
     JsonNode required = schema.path("required");
-    properties.fields().forEachRemaining(entry -> {
-      String fieldName = entry.getKey();
-      JsonNode fieldSchema = entry.getValue();
-      // Always generate required fields; skip optional ones 30% of the time for variety
-      boolean isRequired = required.isArray() && required.toString().contains("\"" + fieldName + "\"");
-      if (isRequired || random.nextDouble() > 0.3) {
-        result.put(fieldName, generateValidValue(fieldSchema));
-      }
-    });
+    properties
+        .fields()
+        .forEachRemaining(
+            entry -> {
+              String fieldName = entry.getKey();
+              JsonNode fieldSchema = entry.getValue();
+              // Always generate required fields; skip optional ones 30% of the time for variety
+              boolean isRequired =
+                  required.isArray() && required.toString().contains("\"" + fieldName + "\"");
+              if (isRequired || random.nextDouble() > 0.3) {
+                result.put(fieldName, generateValidValue(fieldSchema));
+              }
+            });
     return result;
   }
 }

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Random;
 import net.datafaker.Faker;
 
-/** Generates string values respecting minLength, maxLength, format, enum, and pattern constraints. */
+/**
+ * Generates string values respecting minLength, maxLength, format, enum, and pattern constraints.
+ */
 class StringGenerator {
 
   private final Random random;
@@ -26,15 +28,15 @@ class StringGenerator {
 
     if (format != null) {
       return switch (format.toLowerCase()) {
-        case "email"     -> faker.internet().emailAddress();
-        case "uuid"      -> java.util.UUID.randomUUID().toString();
-        case "date"      -> faker.date().birthday(1, 80).toString().substring(0, 10);
+        case "email" -> faker.internet().emailAddress();
+        case "uuid" -> java.util.UUID.randomUUID().toString();
+        case "date" -> faker.date().birthday(1, 80).toString().substring(0, 10);
         case "date-time" -> java.time.Instant.now().toString();
-        case "uri", "url"-> faker.internet().url();
-        case "password"  -> faker.internet().password(8, 20);
-        case "byte"      -> java.util.Base64.getEncoder().encodeToString(
-            faker.lorem().word().getBytes());
-        default          -> generateLengthBounded(schema);
+        case "uri", "url" -> faker.internet().url();
+        case "password" -> faker.internet().password(8, 20);
+        case "byte" ->
+            java.util.Base64.getEncoder().encodeToString(faker.lorem().word().getBytes());
+        default -> generateLengthBounded(schema);
       };
     }
 

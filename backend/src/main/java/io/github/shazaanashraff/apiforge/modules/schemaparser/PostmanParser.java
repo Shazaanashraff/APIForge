@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 /**
  * Parses a Postman Collection v2.1 JSON document into the internal {@link Endpoint} model.
  *
- * <p>Only the HTTP request metadata is used (method, URL, headers, body example).
- * Pre-request scripts, test scripts, and Postman-specific variables are ignored.
- * Nested folder hierarchies are flattened — all requests regardless of folder depth are returned.
+ * <p>Only the HTTP request metadata is used (method, URL, headers, body example). Pre-request
+ * scripts, test scripts, and Postman-specific variables are ignored. Nested folder hierarchies are
+ * flattened — all requests regardless of folder depth are returned.
  */
 @Slf4j
 @Component
@@ -80,8 +80,9 @@ public class PostmanParser {
       for (JsonNode q : urlNode.path("query")) {
         String name = q.path("key").asText();
         if (!name.isBlank()) {
-          queryParams.add(new Parameter(name, "query", false, "string", null,
-              q.path("description").asText(null)));
+          queryParams.add(
+              new Parameter(
+                  name, "query", false, "string", null, q.path("description").asText(null)));
         }
       }
     }
@@ -99,11 +100,18 @@ public class PostmanParser {
     PaginationHint pagination = paginationHintDetector.detect(queryParams);
 
     return new Endpoint(
-        path, method,
+        path,
+        method,
         null, // Postman has no operationId
         item.path("name").asText(),
-        queryParams, body, Map.of(),
-        auth, pagination, PayloadSizeHint.unknown(), SlaHint.none(), IdFormatHint.unknown(),
+        queryParams,
+        body,
+        Map.of(),
+        auth,
+        pagination,
+        PayloadSizeHint.unknown(),
+        SlaHint.none(),
+        IdFormatHint.unknown(),
         List.of());
   }
 

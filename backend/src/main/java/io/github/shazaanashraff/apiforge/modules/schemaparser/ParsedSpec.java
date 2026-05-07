@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * Result of a successful spec ingestion.
  *
- * @param endpoints     the normalised endpoint list
- * @param title         API title from the spec, or null
- * @param specVersion   OpenAPI version string ("3.0.x", "3.1.x") or "postman-2.1"
- * @param sourceUrl     the URL or filename the spec was loaded from; null for file uploads
- * @param parsedAt      when this parse result was produced
+ * @param endpoints the normalised endpoint list
+ * @param title API title from the spec, or null
+ * @param specVersion OpenAPI version string ("3.0.x", "3.1.x") or "postman-2.1"
+ * @param sourceUrl the URL or filename the spec was loaded from; null for file uploads
+ * @param parsedAt when this parse result was produced
  * @param endpointCount total number of endpoints (convenience; equals endpoints.size())
  */
 public record ParsedSpec(

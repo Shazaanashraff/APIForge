@@ -33,7 +33,13 @@ class PerformanceSlaGenerator implements TestCaseGenerator {
             buildPathParams(ep),
             null,
             List.of(Assertion.statusCodeRange("2xx"), Assertion.responseTimeBelow(threshold)),
-            "Performance: " + ep.method() + " " + ep.path() + " must respond in < " + threshold + "ms",
+            "Performance: "
+                + ep.method()
+                + " "
+                + ep.path()
+                + " must respond in < "
+                + threshold
+                + "ms",
             false));
   }
 

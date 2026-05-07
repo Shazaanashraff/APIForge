@@ -30,9 +30,7 @@ class PayloadSizeGenerator implements TestCaseGenerator {
     boolean hasDeclaredMax = ep.payloadSizeHint() != null && ep.payloadSizeHint().hasDeclaredMax();
 
     // 1. Empty body
-    cases.add(
-        sizeCase(
-            ep, pathParams, Map.of(), "empty body", List.of(Assertion.statusCode(400))));
+    cases.add(sizeCase(ep, pathParams, Map.of(), "empty body", List.of(Assertion.statusCode(400))));
 
     if (hasDeclaredMax) {
       long maxBytes = ep.payloadSizeHint().declaredMaxBytes();

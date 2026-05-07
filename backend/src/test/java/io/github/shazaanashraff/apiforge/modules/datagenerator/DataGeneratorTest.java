@@ -183,7 +183,8 @@ class DataGeneratorTest {
 
   @Test
   void generatePayloadFromObjectSchema() {
-    String schemaJson = """
+    String schemaJson =
+        """
         {"type":"object","properties":{"name":{"type":"string"},"count":{"type":"integer"}},
          "required":["name","count"]}""";
     RequestBodySchema rbs = new RequestBodySchema(true, "application/json", schemaJson);

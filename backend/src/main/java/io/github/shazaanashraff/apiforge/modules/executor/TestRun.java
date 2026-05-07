@@ -13,8 +13,8 @@ import org.hibernate.type.SqlTypes;
 /**
  * One test run = one execution of a test suite against the target API.
  *
- * <p>Lifecycle: PENDING → RUNNING → COMPLETED or FAILED.
- * Real-time progress is streamed via SSE (S15); final results stored in test_results.
+ * <p>Lifecycle: PENDING → RUNNING → COMPLETED or FAILED. Real-time progress is streamed via SSE
+ * (S15); final results stored in test_results.
  */
 @Getter
 @Setter

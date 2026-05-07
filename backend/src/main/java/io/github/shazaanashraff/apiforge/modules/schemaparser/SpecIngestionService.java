@@ -14,11 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
  * Public API of the schemaparser module.
  *
  * <p>Accepts specs as raw file uploads, URLs, or by live introspection of a running server.
- * Automatically detects whether the content is OpenAPI or Postman and delegates to the
- * appropriate parser. Returns a {@link ParsedSpec} ready for the test case generator.
+ * Automatically detects whether the content is OpenAPI or Postman and delegates to the appropriate
+ * parser. Returns a {@link ParsedSpec} ready for the test case generator.
  *
- * <p>Other modules MUST interact with this module only through this service class —
- * never by importing parsers or detectors directly (Spring Modulith rule).
+ * <p>Other modules MUST interact with this module only through this service class — never by
+ * importing parsers or detectors directly (Spring Modulith rule).
  */
 @Slf4j
 @Service
@@ -93,7 +93,8 @@ public class SpecIngestionService {
   }
 
   private String detectOpenApiVersion(String content) {
-    if (content.contains("\"openapi\":\"3.1") || content.contains("openapi: '3.1")
+    if (content.contains("\"openapi\":\"3.1")
+        || content.contains("openapi: '3.1")
         || content.contains("openapi: \"3.1")) {
       return "3.1.x";
     }
@@ -108,7 +109,8 @@ public class SpecIngestionService {
       if (result.getOpenAPI() != null && result.getOpenAPI().getInfo() != null) {
         return result.getOpenAPI().getInfo().getTitle();
       }
-    } catch (Exception ignored) {}
+    } catch (Exception ignored) {
+    }
     return url;
   }
 }

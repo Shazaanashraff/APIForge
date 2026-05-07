@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-07
-- **Section:** S14 — REST API Layer
-- **Checkpoint ID:** S14-COMPLETE
+- **Section:** S15 — Real-Time Progress (SSE)
+- **Checkpoint ID:** S15-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** S15 — Real-Time Progress (SSE) — SSE endpoint + Redis pub/sub
-- **Resume instructions:** S14 is complete. Start S15 (Real-Time Progress). Read `docs/plans/S15-sse.md`. Implement a Server-Sent Events endpoint that streams test execution progress to the frontend via Redis pub/sub.
+- **Next file to work on:** S16 — Frontend Foundation
+- **Resume instructions:** S15 is complete. Start S16 (Frontend Foundation). Read `docs/plans/S16-frontend-foundation.md`. Set up React+Vite+TypeScript+Tailwind project with Keycloak OIDC integration.
 
 ---
 
@@ -72,7 +72,8 @@
 - [x] **S12**: Load Tester Module  ✅
 - [x] **S13**: Reporter Module  ✅
 - [x] **S14**: REST API Layer  ✅
-- [ ] **S15**: Real-Time Progress (SSE)  ← **NEXT**
+- [x] **S15**: Real-Time Progress (SSE)  ✅
+- [ ] **S16**: Frontend — Foundation  ← **NEXT**
 
 ---
 
@@ -114,7 +115,7 @@
 | S12 | Load Tester Module | ✅ Complete | — |
 | S13 | Reporter Module | ✅ Complete | — |
 | S14 | REST API Layer | ✅ Complete | — |
-| S15 | Real-Time Progress (SSE) | ⬜ Pending | — |
+| S15 | Real-Time Progress (SSE) | ✅ Complete | — |
 | S16 | Frontend — Foundation | ⬜ Pending | — |
 | S17 | Frontend — Spec & Project Mgmt | ⬜ Pending | — |
 | S18 | Frontend — Test Execution UI | ⬜ Pending | — |

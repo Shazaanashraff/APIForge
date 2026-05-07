@@ -10,10 +10,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * AOP aspect that propagates the current tenant into the Postgres session variable
- * {@code app.current_tenant_id} before each Spring Data repository call.
+ * AOP aspect that propagates the current tenant into the Postgres session variable {@code
+ * app.current_tenant_id} before each Spring Data repository call.
  *
  * <p>How it works:
+ *
  * <ol>
  *   <li>The pointcut fires on every public method of any {@code Repository} sub-interface.
  *   <li>If a Spring-managed transaction is already active (i.e., the repository was called from a
@@ -24,10 +25,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * </ol>
  *
  * <p><strong>Important:</strong> {@code SET LOCAL} is a transaction-scoped command. If the
- * repository is invoked outside a transaction (e.g., directly in test code), the guard
- * {@code TransactionSynchronizationManager.isActualTransactionActive()} returns {@code false} and
- * this method returns early. Always call repositories through {@code @Transactional} service
- * methods so the RLS variable is applied correctly.
+ * repository is invoked outside a transaction (e.g., directly in test code), the guard {@code
+ * TransactionSynchronizationManager.isActualTransactionActive()} returns {@code false} and this
+ * method returns early. Always call repositories through {@code @Transactional} service methods so
+ * the RLS variable is applied correctly.
  */
 @Slf4j
 @Aspect

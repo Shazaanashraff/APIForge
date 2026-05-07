@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 /**
  * Extracts the {@code tenantId} claim from a validated Keycloak JWT.
  *
- * <p>The claim is injected by the realm-level protocol mapper defined in
- * {@code keycloak/realm-export.json}. Its value is the UUID of the tenant that owns the
- * authenticated user.
+ * <p>The claim is injected by the realm-level protocol mapper defined in {@code
+ * keycloak/realm-export.json}. Its value is the UUID of the tenant that owns the authenticated
+ * user.
  *
  * <p>Returns {@code null} if the claim is absent or not a valid UUID — callers must handle that.
  */

@@ -63,10 +63,10 @@ class MongoObjectIdGeneratorTest {
 
   @Test
   void allFourVariantsAreDistinct() {
-    String valid   = generator.validObjectId();
+    String valid = generator.validObjectId();
     String invalid = generator.invalidObjectId();
-    String wrong   = generator.wrongLengthObjectId();
-    String uuid    = generator.uuidLookingObjectId();
+    String wrong = generator.wrongLengthObjectId();
+    String uuid = generator.uuidLookingObjectId();
 
     // They should all be different from each other
     assertThat(valid).isNotEqualTo(uuid);

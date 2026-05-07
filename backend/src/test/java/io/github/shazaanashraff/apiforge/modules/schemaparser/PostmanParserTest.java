@@ -40,10 +40,8 @@ class PostmanParserTest {
 
     List<Endpoint> endpoints = parser.parse(json);
 
-    Endpoint login = endpoints.stream()
-        .filter(e -> "Login".equals(e.summary()))
-        .findFirst()
-        .orElseThrow();
+    Endpoint login =
+        endpoints.stream().filter(e -> "Login".equals(e.summary())).findFirst().orElseThrow();
 
     assertThat(login.method()).isEqualTo(HttpMethod.POST);
     assertThat(login.path()).contains("auth");
@@ -57,10 +55,11 @@ class PostmanParserTest {
 
     List<Endpoint> endpoints = parser.parse(json);
 
-    Endpoint listProducts = endpoints.stream()
-        .filter(e -> "List Products".equals(e.summary()))
-        .findFirst()
-        .orElseThrow();
+    Endpoint listProducts =
+        endpoints.stream()
+            .filter(e -> "List Products".equals(e.summary()))
+            .findFirst()
+            .orElseThrow();
 
     assertThat(listProducts.method()).isEqualTo(HttpMethod.GET);
     assertThat(listProducts.paginationHint().style()).isEqualTo(PaginationHint.Style.PAGE_SIZE);
@@ -74,10 +73,11 @@ class PostmanParserTest {
 
     List<Endpoint> endpoints = parser.parse(json);
 
-    Endpoint createProduct = endpoints.stream()
-        .filter(e -> "Create Product".equals(e.summary()))
-        .findFirst()
-        .orElseThrow();
+    Endpoint createProduct =
+        endpoints.stream()
+            .filter(e -> "Create Product".equals(e.summary()))
+            .findFirst()
+            .orElseThrow();
 
     assertThat(createProduct.method()).isEqualTo(HttpMethod.POST);
     assertThat(createProduct.requestBody()).isNotNull();
@@ -86,7 +86,6 @@ class PostmanParserTest {
 
   @Test
   void throwsOnInvalidJson() {
-    assertThatThrownBy(() -> parser.parse("not json"))
-        .isInstanceOf(SpecParseException.class);
+    assertThatThrownBy(() -> parser.parse("not json")).isInstanceOf(SpecParseException.class);
   }
 }

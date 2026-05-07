@@ -38,9 +38,7 @@ class PayloadSizeGeneratorTest {
     TestCase justUnder = cases.get(1);
     assertThat(justUnder.expectedAssertions())
         .anyMatch(
-            a ->
-                a.type() == Assertion.AssertionType.STATUS_CODE_RANGE
-                    && a.value().equals("2xx"));
+            a -> a.type() == Assertion.AssertionType.STATUS_CODE_RANGE && a.value().equals("2xx"));
   }
 
   @Test
@@ -49,9 +47,7 @@ class PayloadSizeGeneratorTest {
     TestCase justOver = cases.get(2);
     assertThat(justOver.expectedAssertions())
         .anyMatch(
-            a ->
-                a.type() == Assertion.AssertionType.STATUS_CODE_RANGE
-                    && a.value().equals("4xx"));
+            a -> a.type() == Assertion.AssertionType.STATUS_CODE_RANGE && a.value().equals("4xx"));
   }
 
   @Test

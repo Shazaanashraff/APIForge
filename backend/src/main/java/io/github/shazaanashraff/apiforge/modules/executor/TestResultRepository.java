@@ -12,8 +12,8 @@ public interface TestResultRepository extends JpaRepository<TestResult, UUID> {
   List<TestResult> findByTestRunIdAndPassed(UUID testRunId, boolean passed);
 
   /**
-   * Returns counts grouped by category for the report summary.
-   * Each row is [category, passCount, failCount].
+   * Returns counts grouped by category for the report summary. Each row is [category, passCount,
+   * failCount].
    */
   @Query(
       """

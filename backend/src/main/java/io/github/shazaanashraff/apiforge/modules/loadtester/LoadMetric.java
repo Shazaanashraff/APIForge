@@ -13,8 +13,8 @@ import lombok.Setter;
  * A single time-series sample from a load test run.
  *
  * <p>The load tester (S12) samples metrics every second and writes rows here. The underlying
- * Postgres table is a TimescaleDB hypertable partitioned by sampled_at (V2 migration), which
- * makes time-range queries on this data extremely fast.
+ * Postgres table is a TimescaleDB hypertable partitioned by sampled_at (V2 migration), which makes
+ * time-range queries on this data extremely fast.
  *
  * <p>The Grafana dashboard queries the load_metrics_per_minute continuous aggregate view (also
  * defined in V2) rather than this table directly.

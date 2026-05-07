@@ -23,7 +23,8 @@ class IdempotencyGenerator implements TestCaseGenerator {
     }
 
     Map<String, String> pathParams = buildPathParams(ep);
-    Object body = ep.requestBody() != null ? ctx.dataGenerator().generatePayload(ep.requestBody()) : null;
+    Object body =
+        ep.requestBody() != null ? ctx.dataGenerator().generatePayload(ep.requestBody()) : null;
     String desc = "Idempotency: " + ep.method() + " " + ep.path() + " run %s — expect same result";
 
     return List.of(

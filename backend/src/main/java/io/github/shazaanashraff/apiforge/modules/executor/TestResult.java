@@ -11,8 +11,8 @@ import lombok.Setter;
 /**
  * The outcome of executing a single test case.
  *
- * <p>Created by the executor (S10) after each HTTP call. The reporter (S13) reads these to
- * build the HTML/JSON/JUnit XML report.
+ * <p>Created by the executor (S10) after each HTTP call. The reporter (S13) reads these to build
+ * the HTML/JSON/JUnit XML report.
  */
 @Getter
 @Setter

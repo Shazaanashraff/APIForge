@@ -24,9 +24,7 @@ class NumberGenerator {
       long min = (long) minimum;
       long max = (long) maximum;
       long range = max - min;
-      long value = range > 0
-          ? min + (long) (random.nextDouble() * range)
-          : min;
+      long value = range > 0 ? min + (long) (random.nextDouble() * range) : min;
       return applyMultipleOf(value, schema);
     }
 

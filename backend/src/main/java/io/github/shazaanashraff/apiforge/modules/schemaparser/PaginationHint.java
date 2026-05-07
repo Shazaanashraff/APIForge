@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Describes the pagination pattern detected from an endpoint's query parameters.
  *
- * @param style     the pagination style; {@code NONE} if no pagination was detected
+ * @param style the pagination style; {@code NONE} if no pagination was detected
  * @param paramNames the query param names that triggered the detection (for test generation)
  */
 public record PaginationHint(Style style, List<String> paramNames) {

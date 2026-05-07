@@ -76,10 +76,11 @@ class OpenApiParserTest {
 
     List<Endpoint> endpoints = parser.parse(spec);
 
-    Endpoint getPetById = endpoints.stream()
-        .filter(e -> "/pet/{petId}".equals(e.path()) && e.method() == HttpMethod.GET)
-        .findFirst()
-        .orElseThrow(() -> new AssertionError("GET /pet/{petId} not found"));
+    Endpoint getPetById =
+        endpoints.stream()
+            .filter(e -> "/pet/{petId}".equals(e.path()) && e.method() == HttpMethod.GET)
+            .findFirst()
+            .orElseThrow(() -> new AssertionError("GET /pet/{petId} not found"));
 
     assertThat(getPetById.parameters())
         .anyMatch(p -> "petId".equals(p.name()) && "path".equals(p.in()) && p.required());

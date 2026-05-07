@@ -25,12 +25,13 @@ import org.testcontainers.utility.DockerImageName;
 /**
  * Proves that Postgres Row-Level Security (RLS) enforces tenant isolation at the database layer.
  *
- * <p>This test uses a separate Flyway migration location ({@code isolation-test}) that adds a
- * FORCE RLS policy on the {@code projects} table on top of the standard test schema (V1). FORCE
- * means even the table-owner role used by Testcontainers is subject to the policy — the same
- * behaviour as production where the {@code apiforge_app} role is restricted.
+ * <p>This test uses a separate Flyway migration location ({@code isolation-test}) that adds a FORCE
+ * RLS policy on the {@code projects} table on top of the standard test schema (V1). FORCE means
+ * even the table-owner role used by Testcontainers is subject to the policy — the same behaviour as
+ * production where the {@code apiforge_app} role is restricted.
  *
  * <p>The full path exercised:
+ *
  * <ol>
  *   <li>{@code TenantContextHolder.set(tenantId)} — simulates what TenantContextFilter does after
  *       reading the JWT claim in a real HTTP request.
@@ -57,8 +58,8 @@ class TenantIsolationIntegrationTest {
           .withPassword("apiforge_test_secret");
 
   /**
-   * Override Flyway locations to include the isolation-test migration (V2__rls_force.sql)
-   * in addition to the standard test schema (V1__create_core_schema.sql).
+   * Override Flyway locations to include the isolation-test migration (V2__rls_force.sql) in
+   * addition to the standard test schema (V1__create_core_schema.sql).
    */
   @DynamicPropertySource
   static void configureDataSource(DynamicPropertyRegistry registry) {
@@ -100,7 +101,8 @@ class TenantIsolationIntegrationTest {
     // --- ARRANGE: create a project as tenant A -----------------------------------------
     TenantContextHolder.set(tenantA.getId());
     Project project =
-        projectService.createProject(tenantA.getId(), "Secret Project", "http://a.example.com", null);
+        projectService.createProject(
+            tenantA.getId(), "Secret Project", "http://a.example.com", null);
     assertThat(project.getId()).isNotNull();
 
     // --- ACT / ASSERT: tenant A can see their own project ------------------------------

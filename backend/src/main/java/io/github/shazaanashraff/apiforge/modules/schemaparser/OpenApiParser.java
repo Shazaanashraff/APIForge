@@ -33,8 +33,7 @@ public class OpenApiParser {
       result.getMessages().forEach(msg -> log.warn("OpenAPI parse warning: {}", msg));
     }
     if (result.getOpenAPI() == null) {
-      throw new SpecParseException(
-          "Could not parse OpenAPI spec. Errors: " + result.getMessages());
+      throw new SpecParseException("Could not parse OpenAPI spec. Errors: " + result.getMessages());
     }
     return endpointMapper.mapAll(result.getOpenAPI());
   }
@@ -62,16 +61,17 @@ public class OpenApiParser {
   }
 
   /**
-   * Tries standard OpenAPI discovery paths on a running server in order:
-   * {@code /v3/api-docs}, {@code /openapi.json}, {@code /swagger.json}, {@code /api-docs}.
+   * Tries standard OpenAPI discovery paths on a running server in order: {@code /v3/api-docs},
+   * {@code /openapi.json}, {@code /swagger.json}, {@code /api-docs}.
    */
   public List<Endpoint> introspect(String baseUrl) {
     String cleanBase = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
-    List<String> candidates = List.of(
-        cleanBase + "/v3/api-docs",
-        cleanBase + "/openapi.json",
-        cleanBase + "/swagger.json",
-        cleanBase + "/api-docs");
+    List<String> candidates =
+        List.of(
+            cleanBase + "/v3/api-docs",
+            cleanBase + "/openapi.json",
+            cleanBase + "/swagger.json",
+            cleanBase + "/api-docs");
 
     for (String url : candidates) {
       try {

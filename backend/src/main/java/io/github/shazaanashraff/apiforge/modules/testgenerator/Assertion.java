@@ -25,7 +25,8 @@ public record Assertion(AssertionType type, String key, String value) {
   }
 
   public static Assertion responseTimeBelow(long thresholdMs) {
-    return new Assertion(AssertionType.RESPONSE_TIME_MS, "responseTimeMs", String.valueOf(thresholdMs));
+    return new Assertion(
+        AssertionType.RESPONSE_TIME_MS, "responseTimeMs", String.valueOf(thresholdMs));
   }
 
   public static Assertion headerPresent(String header) {

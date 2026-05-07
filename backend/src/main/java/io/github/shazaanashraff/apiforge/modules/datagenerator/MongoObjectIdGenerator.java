@@ -5,8 +5,8 @@ import java.util.Random;
 /**
  * Generates MongoDB ObjectId strings in valid and intentionally invalid forms.
  *
- * <p>A valid MongoDB ObjectId is a 24-character lowercase hexadecimal string.
- * No MongoDB driver dependency is needed — we generate raw hex strings directly.
+ * <p>A valid MongoDB ObjectId is a 24-character lowercase hexadecimal string. No MongoDB driver
+ * dependency is needed — we generate raw hex strings directly.
  */
 public class MongoObjectIdGenerator {
 
@@ -38,8 +38,8 @@ public class MongoObjectIdGenerator {
   }
 
   /**
-   * Returns a hex string of wrong length (23 or 25 chars).
-   * Tests that APIs reject IDs of incorrect length.
+   * Returns a hex string of wrong length (23 or 25 chars). Tests that APIs reject IDs of incorrect
+   * length.
    */
   public String wrongLengthObjectId() {
     // Alternate between too-short and too-long
@@ -48,12 +48,14 @@ public class MongoObjectIdGenerator {
   }
 
   /**
-   * Returns a standard UUID string — valid UUID format but not a 24-char hex ObjectId.
-   * Tests that APIs reject UUIDs when ObjectIds are expected.
+   * Returns a standard UUID string — valid UUID format but not a 24-char hex ObjectId. Tests that
+   * APIs reject UUIDs when ObjectIds are expected.
    */
   public String uuidLookingObjectId() {
-    return java.util.UUID.nameUUIDFromBytes(
-        Long.toHexString(random.nextLong()).getBytes()).toString();
+    return java.util
+        .UUID
+        .nameUUIDFromBytes(Long.toHexString(random.nextLong()).getBytes())
+        .toString();
   }
 
   private String randomHex(int length) {
