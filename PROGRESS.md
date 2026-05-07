@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-07
-- **Section:** S11 — Validator Module
-- **Checkpoint ID:** S11-COMPLETE
+- **Section:** S12 — Load Tester Module
+- **Checkpoint ID:** S12-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** `backend/src/main/java/.../modules/loadtester/` (S12 — Load Tester Module)
-- **Resume instructions:** S11 is complete. Start S12 (Load Tester Module). Read `docs/plans/S12-loadtester.md`. The Load Tester runs virtual-user scenarios against the API under test, collecting timing metrics stored in TimescaleDB.
+- **Next file to work on:** `backend/src/main/java/.../modules/reporter/` (S13 — Reporter Module)
+- **Resume instructions:** S12 is complete. Start S13 (Reporter Module). Read `docs/plans/S13-reporter.md`. The Reporter aggregates ExecutionResult + ValidationResult into HTML (by category), JSON, and JUnit XML reports.
 
 ---
 
@@ -51,6 +51,7 @@
 - [x] **S09-CP1–CP3** — KafkaTopics, KafkaTopicConfig, 4 event records (TestRunStarted/TestCaseCompleted/TestRunFinished/LoadMetricSample), TestRunEventPublisher; 4 Avro schema files; 13 unit tests pass: KafkaTopicConfigTest (5), TestRunEventPublisherTest (4), KafkaEventsTest (4)
 - [x] **S10-CP1–CP3** — AuthRequirement, AuthHeaderProvider, VariableStore, VariableExtractor, HttpRequestBuilder, TestExecutorService (reactive WebClient + Flux.flatMap + Optional Kafka publisher); ExecutionConfig, ExecutionRequest, TestCaseResult, ExecutionResult; 15 unit tests pass: AuthHeaderProviderTest (4), VariableStoreTest (4), VariableExtractorTest (4), HttpRequestBuilderTest (3)
 - [x] **S11-CP1–CP3** — ViolationType, ValidationViolation, ValidationRequest, ValidationResult; StatusCodeValidator (spec-declared status check), JsonBodyValidator (everit-json-schema), SlaValidator (SlaHint threshold); ResponseValidatorService orchestrates all three; 14 unit tests pass: StatusCodeValidatorTest (3), SlaValidatorTest (3), JsonBodyValidatorTest (4), ResponseValidatorServiceTest (4)
+- [x] **S12-CP1–CP3** — LoadScenario, LoadSample, LoadTestResult; PercentileCalculator (ceil-index formula); MetricsCollector (CopyOnWriteArrayList, summarize with percentiles); LoadTesterService (virtual threads via Executors.newVirtualThreadPerTaskExecutor, java.net.http.HttpClient, 1-second sampler loop, TimescaleDB persistence, optional Kafka event); 8 unit tests pass: PercentileCalculatorTest (4), MetricsCollectorTest (4)
 
 ---
 
@@ -66,7 +67,8 @@
 - [x] **S09**: Kafka Event Backbone  ✅
 - [x] **S10**: Executor Module  ✅
 - [x] **S11**: Validator Module  ✅
-- [ ] **S12**: Load Tester Module  ← **NEXT**
+- [x] **S12**: Load Tester Module  ✅
+- [ ] **S13**: Reporter Module  ← **NEXT**
 
 ---
 
@@ -105,7 +107,7 @@
 | S09 | Kafka Event Backbone | ✅ Complete | — |
 | S10 | Executor Module | ✅ Complete | — |
 | S11 | Validator Module | ✅ Complete | — |
-| S12 | Load Tester Module | ⬜ Pending | — |
+| S12 | Load Tester Module | ✅ Complete | — |
 | S13 | Reporter Module | ⬜ Pending | — |
 | S14 | REST API Layer | ⬜ Pending | — |
 | S15 | Real-Time Progress (SSE) | ⬜ Pending | — |
