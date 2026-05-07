@@ -4,6 +4,7 @@ import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
 import DashboardPage from '@/pages/DashboardPage'
 import ProjectsPage from '@/pages/ProjectsPage'
 import SpecsPage from '@/pages/SpecsPage'
+import RunsPage from '@/pages/RunsPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 export const router = createBrowserRouter([
@@ -18,7 +19,7 @@ export const router = createBrowserRouter([
       { index: true, element: <DashboardPage /> },
       { path: 'projects', element: <ProjectsPage /> },
       { path: 'specs', element: <SpecsPage /> },
-      { path: 'runs', element: <div className="text-gray-400">Test Runs — coming in S18</div> },
+      { path: 'runs', element: <RunsPage /> },
       { path: 'reports', element: <div className="text-gray-400">Reports — coming in S19</div> },
     ],
   },

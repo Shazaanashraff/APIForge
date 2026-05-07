@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-07
-- **Section:** S17 — Frontend Spec & Project Mgmt
-- **Checkpoint ID:** S17-COMPLETE
+- **Section:** S18 — Frontend Test Execution UI
+- **Checkpoint ID:** S18-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** S18 — Frontend Test Execution UI
-- **Resume instructions:** S17 is complete. Start S18 (Frontend Test Execution UI). Build category selector, test run trigger form, and SSE progress stream using EventSource connected to GET /api/runs/{runId}/events.
+- **Next file to work on:** S19 — Frontend Reports & Viz
+- **Resume instructions:** S18 is complete. Start S19 (Frontend Reports & Viz). Build a reports page with Recharts bar chart (pass/fail per category) and ECharts latency line graph, connected to real ExecutionResult data from the run history in the Zustand runStore.
 
 ---
 
@@ -57,6 +57,7 @@
 - [x] **S15-CP1–CP3** — modules/sse: ProgressEventType, ProgressEvent record, RedisProgressConfig (RedisMessageListenerContainer bean), ProgressPublisher (@Service, StringRedisTemplate pub to "progress:{runId}"), SseController (GET /api/runs/{runId}/events, SseEmitter, dynamic ChannelTopic listener); 6 unit tests pass
 - [x] **S16-CP1–CP3** — React+Vite+TS+Tailwind frontend wired up: tailwind.config.js, postcss.config.js, tsconfig.node.json, vite-env.d.ts; oidcConfig (Keycloak, react-oidc-context), apiClient (Axios + setAuthToken), authStore (Zustand); Shell/Sidebar/Navbar layout, ProtectedRoute, DashboardPage, NotFoundPage, React Router (createBrowserRouter); 6 vitest tests pass, TypeScript clean, Vite build succeeds
 - [x] **S17-CP1–CP3** — types/spec.ts + types/project.ts; specApi (parseSpecFile multipart, introspectSpec URL-encoded); projectStore (Zustand persist: add/update/remove); ParseResults table component (method badge, endpoint list); ProjectCard (delete, Mongo toggle switch); CreateProjectModal (form with name/desc/specUrl/mongoEnabled); SpecsPage (Monaco editor + file upload + URL introspect + results); ProjectsPage (grid + filter + modal); 12 vitest tests pass, TypeScript clean, Vite build succeeds
+- [x] **S18-CP1–CP3** — types/run.ts (RunTestsRequest, ProgressEvent, ExecutionResult); runsApi (triggerRun POST /runs); runStore (Zustand: startRun/appendEvent/completeRun/clearActive + history[]); useRunProgress hook (EventSource lifecycle, appends events, closes on FINISHED); RunForm, ProgressPanel (live scroll log + pulse indicator), ResultsSummary (pass-rate grid + results table); RunsPage (mutation + SSE wired end-to-end); .input CSS utility; 21 vitest tests pass, TypeScript clean, Vite build succeeds
 
 ---
 
@@ -78,7 +79,8 @@
 - [x] **S15**: Real-Time Progress (SSE)  ✅
 - [x] **S16**: Frontend — Foundation  ✅
 - [x] **S17**: Frontend — Spec & Project Mgmt  ✅
-- [ ] **S18**: Frontend — Test Execution UI  ← **NEXT**
+- [x] **S18**: Frontend — Test Execution UI  ✅
+- [ ] **S19**: Frontend — Reports & Viz  ← **NEXT**
 
 ---
 
@@ -123,7 +125,7 @@
 | S15 | Real-Time Progress (SSE) | ✅ Complete | — |
 | S16 | Frontend — Foundation | ✅ Complete | — |
 | S17 | Frontend — Spec & Project Mgmt | ✅ Complete | — |
-| S18 | Frontend — Test Execution UI | ⬜ Pending | — |
+| S18 | Frontend — Test Execution UI | ✅ Complete | — |
 | S19 | Frontend — Reports & Viz | ⬜ Pending | — |
 | S20 | Sample Buggy APIs | ⬜ Pending | — |
 | S21 | End-to-End Integration | ⬜ Pending | — |
