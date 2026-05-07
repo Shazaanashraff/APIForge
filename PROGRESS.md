@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-07
-- **Section:** S15 — Real-Time Progress (SSE)
-- **Checkpoint ID:** S15-COMPLETE
+- **Section:** S16 — Frontend Foundation
+- **Checkpoint ID:** S16-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** S16 — Frontend Foundation
-- **Resume instructions:** S15 is complete. Start S16 (Frontend Foundation). Read `docs/plans/S16-frontend-foundation.md`. Set up React+Vite+TypeScript+Tailwind project with Keycloak OIDC integration.
+- **Next file to work on:** S17 — Frontend Spec & Project Mgmt
+- **Resume instructions:** S16 is complete. Start S17 (Frontend Spec & Project Mgmt). Implement Monaco-editor spec upload, project CRUD pages, and MongoDB flag toggle using the React Router + React Query + Zustand foundation from S16.
 
 ---
 
@@ -54,6 +54,8 @@
 - [x] **S12-CP1–CP3** — LoadScenario, LoadSample, LoadTestResult; PercentileCalculator (ceil-index formula); MetricsCollector (CopyOnWriteArrayList, summarize with percentiles); LoadTesterService (virtual threads via Executors.newVirtualThreadPerTaskExecutor, java.net.http.HttpClient, 1-second sampler loop, TimescaleDB persistence, optional Kafka event); 8 unit tests pass: PercentileCalculatorTest (4), MetricsCollectorTest (4)
 - [x] **S13-CP1–CP3** — ReportFormat, ReportOutput, ReportRequest, ReportRenderer (interface); HtmlReportRenderer (grouped by category, styled table), JsonReportRenderer (Jackson pretty-print), JUnitXmlRenderer (testsuite/testcase/failure elements); ReporterService (EnumMap strategy); 12 unit tests pass: HtmlReportRendererTest (3), JsonReportRendererTest (3), JUnitXmlRendererTest (3), ReporterServiceTest (3)
 - [x] **S14-CP1–CP3** — modules/api package; SpecController (/api/specs/parse multipart + /introspect), TestRunController (/api/runs full pipeline: ingestUrl→generateAll→executeAll), CodeController (/api/code/generate + /zip download); GlobalExceptionHandler (RFC 7807 ProblemDetail for SpecParseException/IllegalArgument/Exception); ApiForgeOpenApiConfig (SpringDoc bearer JWT); 12 unit tests pass: SpecControllerTest (3), TestRunControllerTest (3), CodeControllerTest (3), GlobalExceptionHandlerTest (3)
+- [x] **S15-CP1–CP3** — modules/sse: ProgressEventType, ProgressEvent record, RedisProgressConfig (RedisMessageListenerContainer bean), ProgressPublisher (@Service, StringRedisTemplate pub to "progress:{runId}"), SseController (GET /api/runs/{runId}/events, SseEmitter, dynamic ChannelTopic listener); 6 unit tests pass
+- [x] **S16-CP1–CP3** — React+Vite+TS+Tailwind frontend wired up: tailwind.config.js, postcss.config.js, tsconfig.node.json, vite-env.d.ts; oidcConfig (Keycloak, react-oidc-context), apiClient (Axios + setAuthToken), authStore (Zustand); Shell/Sidebar/Navbar layout, ProtectedRoute, DashboardPage, NotFoundPage, React Router (createBrowserRouter); 6 vitest tests pass, TypeScript clean, Vite build succeeds
 
 ---
 
@@ -73,7 +75,8 @@
 - [x] **S13**: Reporter Module  ✅
 - [x] **S14**: REST API Layer  ✅
 - [x] **S15**: Real-Time Progress (SSE)  ✅
-- [ ] **S16**: Frontend — Foundation  ← **NEXT**
+- [x] **S16**: Frontend — Foundation  ✅
+- [ ] **S17**: Frontend — Spec & Project Mgmt  ← **NEXT**
 
 ---
 
@@ -116,7 +119,7 @@
 | S13 | Reporter Module | ✅ Complete | — |
 | S14 | REST API Layer | ✅ Complete | — |
 | S15 | Real-Time Progress (SSE) | ✅ Complete | — |
-| S16 | Frontend — Foundation | ⬜ Pending | — |
+| S16 | Frontend — Foundation | ✅ Complete | — |
 | S17 | Frontend — Spec & Project Mgmt | ⬜ Pending | — |
 | S18 | Frontend — Test Execution UI | ⬜ Pending | — |
 | S19 | Frontend — Reports & Viz | ⬜ Pending | — |
