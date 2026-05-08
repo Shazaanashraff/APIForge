@@ -5,6 +5,7 @@ import DashboardPage from '@/pages/DashboardPage'
 import ProjectsPage from '@/pages/ProjectsPage'
 import SpecsPage from '@/pages/SpecsPage'
 import RunsPage from '@/pages/RunsPage'
+import ReportsPage from '@/pages/ReportsPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 export const router = createBrowserRouter([
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
       { path: 'projects', element: <ProjectsPage /> },
       { path: 'specs', element: <SpecsPage /> },
       { path: 'runs', element: <RunsPage /> },
-      { path: 'reports', element: <div className="text-gray-400">Reports — coming in S19</div> },
+      { path: 'reports', element: <ReportsPage /> },
     ],
   },
   { path: '*', element: <NotFoundPage /> },

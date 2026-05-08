@@ -7,12 +7,12 @@
 
 ## 🔖 LAST CHECKPOINT
 
-- **Date:** 2026-05-07
-- **Section:** S18 — Frontend Test Execution UI
-- **Checkpoint ID:** S18-COMPLETE
+- **Date:** 2026-05-08
+- **Section:** S19 — Frontend Reports & Viz
+- **Checkpoint ID:** S19-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** S19 — Frontend Reports & Viz
-- **Resume instructions:** S18 is complete. Start S19 (Frontend Reports & Viz). Build a reports page with Recharts bar chart (pass/fail per category) and ECharts latency line graph, connected to real ExecutionResult data from the run history in the Zustand runStore.
+- **Next file to work on:** S20 — Sample Buggy APIs
+- **Resume instructions:** S19 is complete. Start S20 (Sample Buggy APIs). Read docs/plans/S20-sample-buggy-apis.md. Build two small sample APIs (Java Spring Boot + Node/Express) with documented intentional bugs that APIForge's test suite will catch.
 
 ---
 
@@ -58,6 +58,7 @@
 - [x] **S16-CP1–CP3** — React+Vite+TS+Tailwind frontend wired up: tailwind.config.js, postcss.config.js, tsconfig.node.json, vite-env.d.ts; oidcConfig (Keycloak, react-oidc-context), apiClient (Axios + setAuthToken), authStore (Zustand); Shell/Sidebar/Navbar layout, ProtectedRoute, DashboardPage, NotFoundPage, React Router (createBrowserRouter); 6 vitest tests pass, TypeScript clean, Vite build succeeds
 - [x] **S17-CP1–CP3** — types/spec.ts + types/project.ts; specApi (parseSpecFile multipart, introspectSpec URL-encoded); projectStore (Zustand persist: add/update/remove); ParseResults table component (method badge, endpoint list); ProjectCard (delete, Mongo toggle switch); CreateProjectModal (form with name/desc/specUrl/mongoEnabled); SpecsPage (Monaco editor + file upload + URL introspect + results); ProjectsPage (grid + filter + modal); 12 vitest tests pass, TypeScript clean, Vite build succeeds
 - [x] **S18-CP1–CP3** — types/run.ts (RunTestsRequest, ProgressEvent, ExecutionResult); runsApi (triggerRun POST /runs); runStore (Zustand: startRun/appendEvent/completeRun/clearActive + history[]); useRunProgress hook (EventSource lifecycle, appends events, closes on FINISHED); RunForm, ProgressPanel (live scroll log + pulse indicator), ResultsSummary (pass-rate grid + results table); RunsPage (mutation + SSE wired end-to-end); .input CSS utility; 21 vitest tests pass, TypeScript clean, Vite build succeeds
+- [x] **S19-CP1–CP3** — types/report.ts (CategoryStat, LatencyPoint); chartTransforms (toCategoryStats, toLatencyPoints, p95); download.ts (downloadJson Blob helper); CategoryBarChart (Recharts grouped BarChart, green/red bars, rotated labels); LatencyChart (ECharts line chart, p95 dashed mark line, per-point pass/fail colour); RunSelector dropdown; ReportActions (↓ JSON download); ReportsPage (stat grid + 2-column chart layout); Vite manualChunks (echarts/recharts/vendor split); 30 vitest tests pass, TypeScript clean, Vite build clean
 
 ---
 
@@ -80,7 +81,8 @@
 - [x] **S16**: Frontend — Foundation  ✅
 - [x] **S17**: Frontend — Spec & Project Mgmt  ✅
 - [x] **S18**: Frontend — Test Execution UI  ✅
-- [ ] **S19**: Frontend — Reports & Viz  ← **NEXT**
+- [x] **S19**: Frontend — Reports & Viz  ✅
+- [ ] **S20**: Sample Buggy APIs  ← **NEXT**
 
 ---
 
@@ -126,7 +128,7 @@
 | S16 | Frontend — Foundation | ✅ Complete | — |
 | S17 | Frontend — Spec & Project Mgmt | ✅ Complete | — |
 | S18 | Frontend — Test Execution UI | ✅ Complete | — |
-| S19 | Frontend — Reports & Viz | ⬜ Pending | — |
+| S19 | Frontend — Reports & Viz | ✅ Complete | — |
 | S20 | Sample Buggy APIs | ⬜ Pending | — |
 | S21 | End-to-End Integration | ⬜ Pending | — |
 | S22 | Polish & Documentation | ⬜ Pending | — |
