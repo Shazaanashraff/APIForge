@@ -8,11 +8,11 @@
 ## 🔖 LAST CHECKPOINT
 
 - **Date:** 2026-05-08
-- **Section:** S19 — Frontend Reports & Viz
-- **Checkpoint ID:** S19-COMPLETE
+- **Section:** S20 — Sample Buggy APIs
+- **Checkpoint ID:** S20-COMPLETE
 - **Last commit:** *(see git log)*
-- **Next file to work on:** S20 — Sample Buggy APIs
-- **Resume instructions:** S19 is complete. Start S20 (Sample Buggy APIs). Read docs/plans/S20-sample-buggy-apis.md. Build two small sample APIs (Java Spring Boot + Node/Express) with documented intentional bugs that APIForge's test suite will catch.
+- **Next file to work on:** S21 — End-to-End Integration
+- **Resume instructions:** S20 is complete. Start S21 (End-to-End Integration). Read docs/plans/S21-end-to-end-integration.md. Wire the full E2E flow: start both sample APIs, point APIForge at their OpenAPI specs, run the full test pipeline, and confirm the documented bugs are caught by the correct test categories.
 
 ---
 
@@ -59,6 +59,7 @@
 - [x] **S17-CP1–CP3** — types/spec.ts + types/project.ts; specApi (parseSpecFile multipart, introspectSpec URL-encoded); projectStore (Zustand persist: add/update/remove); ParseResults table component (method badge, endpoint list); ProjectCard (delete, Mongo toggle switch); CreateProjectModal (form with name/desc/specUrl/mongoEnabled); SpecsPage (Monaco editor + file upload + URL introspect + results); ProjectsPage (grid + filter + modal); 12 vitest tests pass, TypeScript clean, Vite build succeeds
 - [x] **S18-CP1–CP3** — types/run.ts (RunTestsRequest, ProgressEvent, ExecutionResult); runsApi (triggerRun POST /runs); runStore (Zustand: startRun/appendEvent/completeRun/clearActive + history[]); useRunProgress hook (EventSource lifecycle, appends events, closes on FINISHED); RunForm, ProgressPanel (live scroll log + pulse indicator), ResultsSummary (pass-rate grid + results table); RunsPage (mutation + SSE wired end-to-end); .input CSS utility; 21 vitest tests pass, TypeScript clean, Vite build succeeds
 - [x] **S19-CP1–CP3** — types/report.ts (CategoryStat, LatencyPoint); chartTransforms (toCategoryStats, toLatencyPoints, p95); download.ts (downloadJson Blob helper); CategoryBarChart (Recharts grouped BarChart, green/red bars, rotated labels); LatencyChart (ECharts line chart, p95 dashed mark line, per-point pass/fail colour); RunSelector dropdown; ReportActions (↓ JSON download); ReportsPage (stat grid + 2-column chart layout); Vite manualChunks (echarts/recharts/vendor split); 30 vitest tests pass, TypeScript clean, Vite build clean
+- [x] **S20-CP1–CP2** — Java sample API (Spring Boot 3.3, PostgreSQL): Product/Order/User/Admin/Auth controllers with 10 documented bugs (B1–B10: wrong status codes, missing 404, no pagination metadata, no size cap, Thread.sleep SLA violation, idempotency failure, open admin endpoint, SQL-injectable search); DB migration V1__init.sql; Node sample API (Express + MongoDB/Mongoose + TypeScript): User/Product models + routes with 10 documented bugs (NoSQL injection B2/B3, off-by-one pagination B4, missing total B5, no index B6, ValidationError→500 B7, idempotency B8, no limit cap B9, no 413 B10); mongo-init.js seed data; scripts/db-init/01-create-sample-db.sql; both compile clean
 
 ---
 
@@ -82,7 +83,8 @@
 - [x] **S17**: Frontend — Spec & Project Mgmt  ✅
 - [x] **S18**: Frontend — Test Execution UI  ✅
 - [x] **S19**: Frontend — Reports & Viz  ✅
-- [ ] **S20**: Sample Buggy APIs  ← **NEXT**
+- [x] **S20**: Sample Buggy APIs  ✅
+- [ ] **S21**: End-to-End Integration  ← **NEXT**
 
 ---
 
@@ -129,7 +131,7 @@
 | S17 | Frontend — Spec & Project Mgmt | ✅ Complete | — |
 | S18 | Frontend — Test Execution UI | ✅ Complete | — |
 | S19 | Frontend — Reports & Viz | ✅ Complete | — |
-| S20 | Sample Buggy APIs | ⬜ Pending | — |
+| S20 | Sample Buggy APIs | ✅ Complete | — |
 | S21 | End-to-End Integration | ⬜ Pending | — |
 | S22 | Polish & Documentation | ⬜ Pending | — |
 | S23 | Microservices Migration Plan | ⬜ Pending | — |
