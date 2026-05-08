@@ -37,23 +37,93 @@ APIForge reads your API's OpenAPI 3.x spec (or Postman v2.1 collection) and:
 
 ---
 
-## Quick Demo
+## APIForge in Action
 
-*Coming soon — demo GIFs showing APIForge finding real bugs in both sample APIs.*
+Point APIForge at the bundled **Node.js sample API** (which has 10 deliberate bugs) and run a test suite:
+
+```
+POST /api/runs
+{
+  "specUrl": "http://localhost:3000/api-docs/json",
+  "baseUrl": "http://localhost:3000",
+  "projectId": "demo",
+  "tenantId":  "default"
+}
+```
+
+APIForge parses the spec, generates ~60 test cases across all 11 categories, executes them, and returns results in seconds. Here's a sample of bugs it detects:
+
+| Bug in Sample API | Category Detected By | Failure Reason |
+|---|---|---|
+| `GET /users/not-an-id` → 500 (CastError unhandled) | **Negative** | Expected 400, got 500 |
+| `GET /users?role[$ne]=admin` bypasses filter | **Security** | NoSQL injection accepted (200) |
+| `POST /users/login` with `{"username":{"$gt":""}}` | **Security** | Operator injection accepted (200) |
+| `GET /products` returns `size+1` items | **Pagination** | Off-by-one in pagination |
+| `GET /products` missing `total` field | **Pagination** | Response schema incomplete |
+| `DELETE /products/:id` twice → 500 | **Idempotency** | Second delete crashes (500) |
+| `POST /products` with empty body → 500 | **Negative** | Expected 400, got 500 |
+| `GET /products?size=999999` returns full collection | **Payload size** | No limit cap enforced |
+
+The same run against the **Java sample API** catches:
+- `GET /products/:id` returning 200 (spec says 201 on `POST /products`)
+- `Thread.sleep(3000)` in `GET /products/slow` breaching the 2 s SLA
+- `DELETE /products/:id` second call → 500 (findById + `.get()` on empty Optional)
+- `GET /admin/stats` accessible without any authentication (missing `@PreAuthorize`)
 
 ---
+
+## Architecture
+
+```
+┌────────────────────────────────────────────────────────────────────┐
+│                         APIForge Backend                           │
+│                  (Spring Boot 3 · Java 21 · Modulith)              │
+│                                                                    │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐             │
+│  │ schemaparser │→ │  testgen     │→ │  executor    │             │
+│  │ (OpenAPI /   │  │ (11 category │  │ (WebClient,  │             │
+│  │  Postman)    │  │  generators) │  │  Flux, auth) │             │
+│  └──────────────┘  └──────────────┘  └──────┬───────┘             │
+│                                             │                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────▼───────┐             │
+│  │  codegen     │  │  reporter    │  │  validator   │             │
+│  │ (RestAssured │  │ (HTML/JSON/  │  │ (status,     │             │
+│  │  /K6/Gatling)│  │  JUnit XML)  │  │  schema, SLA)│             │
+│  └──────────────┘  └──────────────┘  └──────────────┘             │
+│                                                                    │
+│  Infrastructure: Kafka · Redis SSE · Postgres · TimescaleDB        │
+└────────────────────────────────────────────────────────────────────┘
+         │                                      │
+   ┌─────▼──────┐                       ┌───────▼──────┐
+   │  Keycloak  │                       │  Frontend    │
+   │ (OIDC/JWT) │                       │ (React+Vite) │
+   └────────────┘                       └──────────────┘
+```
 
 ## Project Structure
 
 ```
 apiforge/
 ├── backend/                    # Spring Boot 3 + Java 21 modular monolith
+│   └── src/main/java/.../modules/
+│       ├── schemaparser/       # OpenAPI + Postman parsing
+│       ├── testgenerator/      # 11-category test case generation
+│       ├── datagenerator/      # Realistic + boundary test data
+│       ├── executor/           # Reactive HTTP test execution
+│       ├── validator/          # Status code, schema, SLA validation
+│       ├── codegenerator/      # Renders runnable test code
+│       ├── loadtester/         # Virtual-thread load testing
+│       ├── reporter/           # HTML / JSON / JUnit XML reports
+│       ├── sse/                # Real-time progress via Redis pub/sub
+│       ├── kafka/              # Event backbone (Avro schemas)
+│       ├── project/            # Project management
+│       └── api/                # REST API layer
 ├── frontend/                   # React 18 + Vite + TypeScript + Tailwind
 ├── sample-target-api-java/     # Buggy Spring Boot + PostgreSQL demo API
 ├── sample-target-api-node/     # Buggy Node.js + Express + MongoDB demo API
-├── docs/                       # Plans, ADRs, architecture diagrams
+├── docs/                       # Plans, ADRs, Postman collection
 ├── observability/              # Prometheus, Grafana, Loki, Tempo configs
-├── scripts/                    # Windows PowerShell utility scripts
+├── scripts/                    # PowerShell utilities + smoke-test.ps1
 └── docker-compose.yml          # Full local stack (13+ services)
 ```
 
@@ -112,9 +182,37 @@ See [RUNBOOK.md](RUNBOOK.md) for health check URLs, common errors, and smoke tes
 
 ---
 
+## Running the Test Suite
+
+```powershell
+# Backend unit tests (no Docker needed)
+cd backend && .\mvnw.cmd test
+
+# Frontend tests
+cd frontend && npm test
+
+# Full pipeline E2E test (MockWebServer, no external services)
+cd backend && .\mvnw.cmd test "-Dtest=PipelineE2ETest"
+
+# Smoke test (requires APIForge backend + Node sample API running)
+.\scripts\smoke-test.ps1
+```
+
+## Key Technical Decisions
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| HTTP test execution | Spring WebFlux `WebClient` + `Flux.flatMap` | Non-blocking; configurable concurrency without thread explosion |
+| Multi-tenancy | Postgres RLS + `SET LOCAL app.current_tenant_id` | Isolation at DB layer; no risk of accidental cross-tenant leaks |
+| SSE progress streaming | Redis pub/sub → `SseEmitter` | Decouples executor from HTTP layer; scales across instances |
+| Test data generation | Seeded `DataGenerator` (Datafaker + custom generators) | Reproducible test runs for debugging |
+| Frontend state | Zustand (client state) + React Query (server state) | Clean separation; avoids Redux boilerplate |
+
+See [docs/adr/](docs/adr/) for full Architecture Decision Records.
+
 ## Status
 
-This project is actively being built. See [PROGRESS.md](PROGRESS.md) for the current checkpoint.
+S21 of S23 complete — core tool is fully functional. See [PROGRESS.md](PROGRESS.md) for the current checkpoint.
 
 ---
 

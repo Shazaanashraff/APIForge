@@ -130,9 +130,47 @@ Rules:
 
 ---
 
+## External Contributors
+
+If you're contributing from outside the core project:
+
+### Getting Started
+
+1. **Fork** the repository on GitHub
+2. **Clone** your fork: `git clone https://github.com/YOUR_USERNAME/APIForge.git`
+3. **Set up** the dev environment: follow [DEVELOPER_SETUP.md](DEVELOPER_SETUP.md)
+4. **Create a branch**: `git checkout -b feature/your-feature-name`
+5. **Make your changes**, following the code style and DoD above
+6. **Open a Pull Request** against `main` in the upstream repo
+
+### What Makes a Good PR
+
+- **Focused**: one PR = one concern. Don't mix feature + refactor + docs in a single PR.
+- **Tested**: new behaviour needs new tests. Bug fixes need a test that reproduces the bug before the fix.
+- **Described**: the PR body should explain *why* the change is needed, not just what it does.
+- **Small**: aim for < 400 lines changed. Larger PRs are harder to review and take longer to merge.
+
+### Issue Reporting
+
+Before opening an issue, check if one already exists. When filing a new issue:
+
+- **Bug reports**: include steps to reproduce, expected vs. actual behaviour, and the relevant service (backend/frontend/sample API).
+- **Feature requests**: describe the use case and why existing behaviour doesn't cover it. Link to any related ADR or plan.
+
+Use the issue labels: `bug`, `enhancement`, `documentation`, `good first issue`, `help wanted`.
+
+### Good First Issues
+
+Look for issues labelled `good first issue` — these are scoped tasks with clear acceptance criteria, no deep context required. Good candidates include:
+- Adding a new test generator category (see existing generators in `modules/testgenerator/` for the pattern)
+- Adding a new code generation format (see `modules/codegenerator/` renderer implementations)
+- Improving an error message or adding a missing validation
+
+---
+
 ## Asking Questions
 
-This is a solo learning project, but if you're stuck:
 - Check the relevant `docs/plans/SXX-*.md` for the intended approach
 - Check `docs/adr/` to understand why a technology was chosen
 - Check `LEARNING.md` for concept explanations and links
+- Open a GitHub Discussion for open-ended questions

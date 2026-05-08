@@ -133,7 +133,28 @@ npm run dev
 
 ## Smoke Tests
 
-Run the full smoke test suite (takes ~2 minutes):
+### Pipeline smoke test (recommended — no Docker needed)
+
+Tests the full APIForge request pipeline end-to-end. Requires the backend and Node sample API to be running.
+
+```powershell
+.\scripts\smoke-test.ps1
+```
+
+What it checks:
+1. APIForge `/actuator/health` returns `UP`
+2. Node sample API `/health` returns `ok`
+3. Spec introspection (`POST /api/specs/introspect`) finds endpoints
+4. Full test run (`POST /api/runs`) returns results
+5. At least one test failure is detected (proves the sample bugs are present)
+6. Code generation returns generated files
+
+Optional flags:
+```powershell
+.\scripts\smoke-test.ps1 -ApiForgeUrl http://localhost:8080 -NodeApiUrl http://localhost:3000 -JavaApiUrl http://localhost:8090
+```
+
+### Full infrastructure smoke test
 
 ```powershell
 .\scripts\run-smoke-tests.ps1

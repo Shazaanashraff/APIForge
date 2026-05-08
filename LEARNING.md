@@ -262,6 +262,34 @@ A unidirectional streaming protocol where the server pushes events to the client
 
 ---
 
+## S11 — Validator Module
+
+*(entries added during S11)*
+
+### JSON Schema Validation
+Validates an actual JSON response body against the schema declared in the OpenAPI spec. Uses the everit-json-schema library, which supports JSON Schema Draft-7 including `required`, `type`, `format`, `minLength`, `enum`, etc.
+→ https://github.com/erosb/everit-json-schema
+
+### Response-Time SLA
+A Service Level Agreement expressed as a maximum acceptable response time. We let API spec authors annotate endpoints with `x-response-time-sla: 500` (ms). Tests that exceed this threshold are marked as failures.
+→ https://spec.openapis.org/oas/v3.1.0#specification-extensions
+
+---
+
+## S13 — Reporter Module
+
+*(entries added during S13)*
+
+### JUnit XML Format
+A de-facto standard XML format for test results, supported by Jenkins, GitHub Actions, CircleCI, and most CI platforms. Each `<testsuite>` contains `<testcase>` elements; failures are nested `<failure>` elements.
+→ https://www.ibm.com/docs/en/developer-for-zos/14.1?topic=formats-junit-xml-format
+
+### Strategy Pattern
+A design pattern where a family of algorithms (here: report formats) is defined behind a common interface, selected at runtime. Our `ReportRenderer` interface is implemented by `HtmlReportRenderer`, `JsonReportRenderer`, and `JUnitXmlRenderer`. The `ReporterService` picks the right one based on `ReportFormat`.
+→ https://refactoring.guru/design-patterns/strategy
+
+---
+
 ## S14 — REST API Layer
 
 *(entries added during S14)*
@@ -308,6 +336,20 @@ The code editor from VS Code, available as a React component. We embed it for in
 
 ---
 
+## S18 — Test Execution UI
+
+*(entries added during S18)*
+
+### EventSource (Browser SSE API)
+The browser-native API for consuming Server-Sent Events. Unlike `fetch`, it automatically reconnects on failure. We use it to stream live test-run progress events from the backend's Redis pub/sub channel.
+→ https://developer.mozilla.org/en-US/docs/Web/API/EventSource
+
+### Zustand `persist` Middleware
+Zustand middleware that serializes store state to `localStorage` (or `sessionStorage`) and rehydrates it on page load. We use it in `projectStore` so projects survive browser refreshes.
+→ https://docs.pmnd.rs/zustand/integrations/persisting-store-data
+
+---
+
 ## S19 — Reports & Visualization
 
 *(entries added during S19)*
@@ -319,6 +361,44 @@ A React charting library built on SVG. We use it for pass/fail summaries and cat
 ### Apache ECharts
 A more powerful charting library (canvas-based) for complex visualizations like latency distributions and percentile graphs.
 → https://echarts.apache.org/en/index.html
+
+---
+
+## S20 — Sample Buggy APIs
+
+*(entries added during S20)*
+
+### NoSQL Injection
+An attack where MongoDB query operators (`$gt`, `$ne`, `$where`, `$regex`) are injected directly into query parameters or request bodies. For example, sending `username={"$gt":""}` matches all users because every string is greater than the empty string. Prevention: always sanitize/validate operator-shaped input before passing to `findOne`.
+→ https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05.6-Testing_for_NoSQL_Injection
+
+### Mongoose ValidationError vs 500
+When a required field is missing from a Mongoose document and `.save()` is called, Mongoose throws a `ValidationError`. If the route handler doesn't catch it, Express converts it to an unhandled 500. The fix is a `try/catch` that maps `ValidationError` to a 400 response.
+→ https://mongoosejs.com/docs/validation.html
+
+### Null-Safety in Delete-Then-Read Patterns
+A common bug: `findById(id)` returns `null` on the second delete (the document no longer exists), then calling `.deleteOne()` on `null` throws a `TypeError`. The fix is always to check for `null` before dereferencing, or use `findByIdAndDelete` which handles the absent-document case gracefully.
+
+### Express Body Size Limits
+By default, `express.json()` accepts up to 100 KB. To reject oversized payloads with a proper 413 response, pass `{ limit: '100kb' }` explicitly: `app.use(express.json({ limit: '100kb' }))`.
+→ https://expressjs.com/en/api.html#express.json
+
+---
+
+## S21 — End-to-End Integration
+
+*(entries added during S21)*
+
+### MockWebServer (OkHttp3)
+A scriptable mock HTTP server for JVM tests. You enqueue responses or set a `Dispatcher` that returns different responses based on the request path. Invaluable for testing code that makes outbound HTTP calls (like spec fetching and API execution) without running real servers.
+→ https://github.com/square/okhttp/tree/master/mockwebserver
+
+### Pipeline E2E Testing Without Spring Context
+Instead of starting the full `@SpringBootTest` application context (which needs Postgres, Redis, Kafka), you can instantiate service objects directly in a plain JUnit 5 test — as long as they have no-arg or all-final-field constructors (Lombok `@RequiredArgsConstructor`). This tests the business logic pipeline in isolation, runs in seconds, and doesn't need Docker. The trade-off: you don't test Spring auto-wiring or bean lifecycle.
+
+### Postman Collections as Living Documentation
+A Postman collection (v2.1 JSON) serves as both manual testing tool and documentation. With the `event` > `test` script blocks, each request can assert on the response — making the collection runnable as an automated test suite via Newman (`npx newman run collection.json`). Committed to the repo, it becomes a contract that future contributors can verify.
+→ https://learning.postman.com/docs/collections/using-newman-cli/command-line-integration-with-newman/
 
 ---
 
