@@ -1,0 +1,283 @@
+{
+  "info": {
+    "_postman_id": "apiforge-e2e-collection-v1",
+    "name": "APIForge E2E — Full Workflow",
+    "description": "Demonstrates the complete APIForge workflow:\n1. Parse an OpenAPI spec from the sample Node buggy API\n2. Run the full test pipeline against it\n3. Fetch the generated test results\n\nPrerequisites:\n- APIForge backend running on localhost:8080 (./mvnw spring-boot:run)\n- Sample Node API running on localhost:3000 (npm run dev in sample-target-api-node/)\n- Keycloak running on localhost:8180 (docker compose up keycloak)\n\nObtain a bearer token via the 'Get Auth Token' request before running the others.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url",    "value": "http://localhost:8080" },
+    { "key": "node_api",    "value": "http://localhost:3000" },
+    { "key": "java_api",    "value": "http://localhost:8090" },
+    { "key": "keycloak_url","value": "http://localhost:8180" },
+    { "key": "realm",       "value": "apiforge" },
+    { "key": "client_id",   "value": "apiforge-backend" },
+    { "key": "username",    "value": "demo@example.com" },
+    { "key": "password",    "value": "demo" },
+    { "key": "token",       "value": "" },
+    { "key": "run_id",      "value": "" }
+  ],
+  "item": [
+    {
+      "name": "0 — Auth",
+      "item": [
+        {
+          "name": "Get Auth Token (Keycloak)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "pm.collectionVariables.set('token', json.access_token);",
+                  "pm.test('Got token', () => pm.expect(json.access_token).to.be.a('string'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{keycloak_url}}/realms/{{realm}}/protocol/openid-connect/token",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "grant_type", "value": "password" },
+                { "key": "client_id",  "value": "{{client_id}}" },
+                { "key": "username",   "value": "{{username}}" },
+                { "key": "password",   "value": "{{password}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1 — Spec Parsing",
+      "item": [
+        {
+          "name": "Parse Node API spec (URL introspect)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "var json = pm.response.json();",
+                  "pm.test('Has endpoints', () => pm.expect(json.endpointCount).to.be.above(0));",
+                  "pm.test('Title present', () => pm.expect(json.title).to.be.a('string'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/specs/introspect?baseUrl={{node_api}}",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] }
+          }
+        },
+        {
+          "name": "Parse Java API spec (URL introspect)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "var json = pm.response.json();",
+                  "pm.test('Has endpoints', () => pm.expect(json.endpointCount).to.be.above(0));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/specs/introspect?baseUrl={{java_api}}",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 — Test Execution (Node API)",
+      "item": [
+        {
+          "name": "Run tests against Node buggy API",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "var json = pm.response.json();",
+                  "pm.collectionVariables.set('run_id', json.testRunId);",
+                  "pm.test('runId present', () => pm.expect(json.testRunId).to.be.a('string'));",
+                  "pm.test('Has results', () => pm.expect(json.results).to.be.an('array').with.length.above(0));",
+                  "pm.test('Some tests failed (bugs detected)', () => pm.expect(json.failed).to.be.above(0));",
+                  "console.log('Run ID:', json.testRunId, '| passed:', json.passed, '| failed:', json.failed);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/runs",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"specUrl\": \"{{node_api}}/api-docs/json\",\n  \"baseUrl\": \"{{node_api}}\",\n  \"projectId\": \"sample-node\",\n  \"tenantId\": \"demo-tenant\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Run tests against Java buggy API",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "var json = pm.response.json();",
+                  "pm.test('Has results', () => pm.expect(json.results).to.be.an('array').with.length.above(0));",
+                  "pm.test('Some tests failed (bugs detected)', () => pm.expect(json.failed).to.be.above(0));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/runs",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"specUrl\": \"{{java_api}}/v3/api-docs\",\n  \"baseUrl\": \"{{java_api}}\",\n  \"projectId\": \"sample-java\",\n  \"tenantId\": \"demo-tenant\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 — Code Generation",
+      "item": [
+        {
+          "name": "Generate RestAssured tests for Node API",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "var json = pm.response.json();",
+                  "pm.test('Has generated files', () => pm.expect(json.files).to.be.an('array').with.length.above(0));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/code/generate",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"specUrl\": \"{{node_api}}/api-docs/json\",\n  \"format\": \"REST_ASSURED\",\n  \"baseUrl\": \"{{node_api}}\",\n  \"packageName\": \"com.example.tests\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Generate K6 load test for Node API",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "var json = pm.response.json();",
+                  "pm.test('K6 script generated', () => pm.expect(json.files.length).to.be.above(0));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/code/generate",
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"specUrl\": \"{{node_api}}/api-docs/json\",\n  \"format\": \"K6\",\n  \"baseUrl\": \"{{node_api}}\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 — Health Checks",
+      "item": [
+        {
+          "name": "APIForge health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('UP', () => { var j = pm.response.json(); pm.expect(j.status).to.eql('UP'); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/actuator/health"
+          }
+        },
+        {
+          "name": "Node API health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('ok', () => { var j = pm.response.json(); pm.expect(j.status).to.eql('ok'); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{node_api}}/health"
+          }
+        },
+        {
+          "name": "Java API health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('UP', () => { var j = pm.response.json(); pm.expect(j.status).to.eql('UP'); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{java_api}}/actuator/health"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -276,6 +276,14 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- MockWebServer — serves fake HTTP endpoints in pipeline E2E tests -->
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>mockwebserver</artifactId>
+      <version>4.12.0</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <!-- Confluent Maven repo — required for kafka-avro-serializer -->
